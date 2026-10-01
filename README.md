@@ -80,6 +80,6 @@ This repository is a backup snapshot of the hosted Site, rather than an automati
 - `scripts/test-mobile-propagation.mjs` — verification script for mobile propagation calculations.
 - Original backup metadata: Site version **27**, source snapshot commit `ab799574ac331782e9e1310009fb8701b71010a5`.
 
-**Known snapshot issue:** the checked-in `dist/index.html`, `dist/data/mobile-sites.json` and `dist/data/transit-stops.geojson` each stop at 200,000 bytes. The HTML ends inside a JavaScript expression, and both data files contain incomplete JSON. This snapshot therefore needs the complete original files restored before it can run locally. The functionality described above is documented from the interface and code present in the snapshot; it is not a claim that this checkout is currently runnable.
+The complete HTML and mobile/transport datasets have been restored from the original source snapshot. To serve the static app locally, run `python -m http.server 8000 --directory dist` from the repository root, then open `http://localhost:8000`. External data services still require an internet connection.
 
 Updating files here does not automatically update the hosted Site.

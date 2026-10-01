@@ -3335,4 +3335,792 @@
       $("#ascent-value").textContent = displayAscent(metrics.ascent);
       $("#ascent-label").textContent = metrics.ascentSource === "listed" ? "Listed ascent" : metrics.ascentSource === "points" ? "Est. ascent" : "Ascent";
       $("#grade-value").textContent = metrics.grade || "—";
-      $("#high-point").textContent = metrics.high !== null ?
+      $("#high-point").textContent = metrics.high !== null ? `High point ${formatProfileElevation(metrics.high)}` : "";
+      clearSteepnessFeatures();
+      const hasProfile = drawCurrentProfile(route, metrics);
+      let terrainProfileRequested = false;
+      if (!hasProfile) {
+        profileEmpty.style.display = "flex";
+        profileEmpty.textContent = route.kind === "gpx" ? "No elevations in this GPX. Loading a terrain estimate…" : "Loading a terrain profile estimate…";
+        $("#profile-foot").textContent = "Loading terrain estimate…";
+        const rect = profileCanvas.getBoundingClientRect();
+        const ratio = Math.max(1, window.devicePixelRatio || 1);
+        profileCanvas.width = Math.max(1, Math.round(rect.width * ratio));
+        profileCanvas.height = Math.max(1, Math.round(rect.height * ratio));
+        requestTerrainProfile(route);
+        terrainProfileRequested = true;
+      }
+      const recordedSteepness = recordedSteepnessFeatures(route);
+      if (recordedSteepness.length) {
+        setSteepnessFeatures(route, recordedSteepness, `${route.kind === "gpx" ? "GPX" : "Route"} elevations · absolute grade`);
+      } else if (!terrainProfileRequested) {
+        requestTerrainProfile(route);
+      }
+      routeActions.style.display = "flex";
+      requestRouteWeather(route);
+      requestRouteWarnings(route);
+      if (route.kind === "register" && warningCountyCode(routeCounty(route.feature))) {
+        metWarningRefreshTimer = window.setInterval(() => {
+          if (activeRoute === route) requestRouteWarnings(route, true);
+        }, MET_EIREANN_WARNING_REFRESH_MS);
+      }
+      if (amenitiesLayerEnabled) requestNearbyFacilities(route);
+      if (photosLayerEnabled) requestTrailPhotos(route);
+      renderTrailHeritage(route);
+      renderTrailTransport(route);
+    }
+
+    function normalized(value) {
+      return String(value || "").trim().toLocaleLowerCase();
+    }
+
+    function populateFilterOptions(select, values, placeholder) {
+      const current = select.value;
+      const unique = [...new Set(values.map((value) => String(value || "").trim()).filter(Boolean))]
+        .sort((a, b) => a.localeCompare(b));
+      select.innerHTML = `<option value="">${placeholder}</option>${unique.map((value) => `<option value="${escapeHtml(value)}">${escapeHtml(value)}</option>`).join("")}`;
+      if (unique.includes(current)) select.value = current;
+    }
+
+    function updateFilterSummary() {
+      const active = [activityFilter.value, gradeFilter.value].filter(Boolean).length;
+      $("#filter-count").textContent = active ? String(active) : "All";
+    }
+
+    function updateScopeControls() {
+      const countyMode = mapScopeMode === "county";
+      countyField.hidden = !countyMode;
+      countyFilter.disabled = !countyMode;
+      if (mapScopeMode === "county") {
+        scopeHint.textContent = countyFilter.value
+          ? `All registered trails in ${countyFilter.value} are shown.`
+          : "Choose a county to show its registered trails.";
+      } else if (mapScopeMode === "area") {
+        scopeHint.textContent = "Trails in the visible map area are shown. Zoom or pan to explore another area.";
+      } else {
+        scopeHint.textContent = "All registered trails across Ireland are shown.";
+      }
+    }
+
+    function trailsInGeographicScope() {
+      if (mapScopeMode === "county") {
+        const county = normalized(countyFilter.value);
+        return county ? trails.filter((feature) => normalized(routeCounty(feature)) === county) : [];
+      }
+      if (mapScopeMode === "area" && mapReady) {
+        const bounds = map.getBounds();
+        return trails.filter((feature) => routeTouchesMapBounds(feature, bounds));
+      }
+      return trails;
+    }
+
+    function renderMapTrails(features) {
+      if (!mapReady) return;
+      const source = map.getSource("registered-trails");
+      if (!source) return;
+      source.setData({
+        type: "FeatureCollection",
+        features: features.map((feature) => ({
+          type: "Feature",
+          id: feature.id,
+          properties: { ...(feature.properties || {}), routeIndex: trails.indexOf(feature) },
+          geometry: feature.geometry
+        }))
+      });
+      const endpointFeatures = features.flatMap((feature) => routeEndpointPoints({ feature }, 10).map((endpoint) => ({
+        type: "Feature",
+        properties: { routeIndex: trails.indexOf(feature), endpoint: endpoint.key },
+        geometry: { type: "Point", coordinates: endpoint.coordinates }
+      })));
+      if (activeRoute?.feature?.geometry && !features.includes(activeRoute.feature)) {
+        endpointFeatures.push(...routeEndpointPoints(activeRoute, 10).map((endpoint) => ({
+          type: "Feature",
+          properties: { routeIndex: trails.indexOf(activeRoute.feature), endpoint: endpoint.key },
+          geometry: { type: "Point", coordinates: endpoint.coordinates }
+        })));
+      }
+      map.getSource("trail-endpoints")?.setData({ type: "FeatureCollection", features: endpointFeatures });
+    }
+
+    function renderTrailList() {
+      const activity = normalized(activityFilter.value);
+      const grade = normalized(gradeFilter.value);
+      const inScope = trailsInGeographicScope();
+      const filtered = inScope.filter((feature) => {
+        const name = routeName(feature, trails.indexOf(feature));
+        const routeCountyValue = routeCounty(feature);
+        const routeActivityValue = routeActivity(feature);
+        const routeGradeValue = routeGrade(feature);
+        const haystack = [name, routeCountyValue, routeActivityValue, routeGradeValue, routeDescription(feature)].join(" ").toLowerCase();
+        return haystack.includes(queryText)
+          && (!activity || normalized(routeActivityValue) === activity)
+          && (!grade || normalized(routeGradeValue) === grade);
+      });
+      renderMapTrails(filtered);
+      const sort = trailSort.value;
+      if (sort !== "name") {
+        const [field, order] = sort.split("-");
+        const direction = order === "desc" ? -1 : 1;
+        filtered.sort((a, b) => {
+          const aValue = getMetrics(a)[field === "distance" ? "km" : "ascent"];
+          const bValue = getMetrics(b)[field === "distance" ? "km" : "ascent"];
+          if (aValue === null && bValue !== null) return 1;
+          if (bValue === null && aValue !== null) return -1;
+          return (aValue - bValue) * direction || routeName(a).localeCompare(routeName(b));
+        });
+      } else {
+        filtered.sort((a, b) => routeName(a).localeCompare(routeName(b)));
+      }
+      const narrowed = queryText || activity || grade;
+      routeCount.textContent = narrowed
+        ? `${filtered.length} of ${inScope.length}`
+        : mapScopeMode === "county" && !countyFilter.value
+          ? "Choose county"
+          : mapScopeMode === "county"
+            ? `${filtered.length} in county`
+            : mapScopeMode === "area"
+              ? `${filtered.length} in view`
+              : `${filtered.length} routes`;
+      if (!filtered.length) {
+        const message = !trails.length
+          ? '<div class="empty-state"><strong>Trail register unavailable</strong>You can still open a GPX file from your device.</div>'
+          : mapScopeMode === "county" && !countyFilter.value
+            ? '<div class="empty-state"><strong>Choose a county</strong>All registered trails for that county will appear here and on the map.</div>'
+            : mapScopeMode === "area" && !inScope.length
+              ? '<div class="empty-state"><strong>No trails in this map area</strong>Zoom out or pan to explore nearby routes.</div>'
+              : '<div class="empty-state"><strong>No matching trail</strong>Change the search or clear the filters.</div>';
+        routeList.innerHTML = message;
+        return;
+      }
+      routeList.innerHTML = filtered.map((feature) => {
+        const index = trails.indexOf(feature);
+        const title = routeName(feature, index);
+        const county = routeCounty(feature);
+        const activity = routeActivity(feature);
+        const metrics = getMetrics(feature);
+        const active = activeRoute?.kind === "register" && activeRoute.feature === feature;
+        const meta = [county, displayDistance(metrics.km)].filter(Boolean).map((part) => `<span>${escapeHtml(part)}</span>`).join('<span class="meta-dot" aria-hidden="true"></span>');
+        return `<button class="route-item" type="button" role="listitem" aria-pressed="${active}" data-route-index="${index}"><span class="route-title-row"><span class="route-name">${escapeHtml(title)}</span><span class="route-arrow" aria-hidden="true">›</span></span><span class="route-meta">${meta}${activity ? `<span class="type-pill">${escapeHtml(activity)}</span>` : ""}</span></button>`;
+      }).join("");
+      routeList.querySelectorAll("[data-route-index]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const feature = trails[Number(button.dataset.routeIndex)];
+          if (feature) selectRoute({ feature, title: routeName(feature, Number(button.dataset.routeIndex)), kind: "register" });
+        });
+      });
+    }
+
+    function fitToGeometry(geometry) {
+      if (!map || !mapReady || !geometry) return;
+      const coords = lineParts(geometry).flat();
+      const valid = coords.filter((point) => Array.isArray(point) && Number.isFinite(Number(point[0])) && Number.isFinite(Number(point[1])));
+      if (!valid.length) return;
+      const bounds = valid.reduce((result, point) => result.extend([Number(point[0]), Number(point[1])]), new maplibregl.LngLatBounds([valid[0][0], valid[0][1]], [valid[0][0], valid[0][1]]));
+      const mobile = window.innerWidth <= 760;
+      const tablet = window.innerWidth <= 1100;
+      const detailVisible = detailPanel.dataset.open === "true";
+      const detailsOpen = detailVisible && detailPanel.dataset.collapsed !== "true";
+      const sidebarCollapsed = sidebarPanel.dataset.collapsed === "true";
+      const compactDetails = detailsOpen && tablet;
+      const tabletPanelInset = Math.round(Math.min(340, window.innerWidth * .31) + 20);
+      const sidebarInset = tablet ? tabletPanelInset : 440;
+      const detailInset = tablet ? tabletPanelInset : window.innerWidth <= 1250 ? 390 : 420;
+      map.fitBounds(bounds, {
+        padding: compactDetails
+          ? mobile
+            ? { top: Math.round(Math.min(window.innerHeight * .36, 300) + 15), right: Math.round(Math.min(window.innerWidth * .64, 380) + 20), bottom: sidebarCollapsed ? 30 : Math.round(Math.min(window.innerHeight * .42, 360) + 15), left: sidebarCollapsed ? 65 : 20 }
+            : { top: 75, right: detailInset, bottom: 35, left: sidebarCollapsed ? 72 : sidebarInset }
+          : mobile
+          ? { top: 100, right: detailVisible ? 60 : 30, bottom: sidebarCollapsed ? 30 : Math.round(window.innerHeight * .57), left: sidebarCollapsed ? 60 : 30 }
+          : { top: 105, right: detailsOpen ? detailInset : detailVisible ? 72 : 75, bottom: 90, left: sidebarCollapsed ? 72 : sidebarInset },
+        maxZoom: 14,
+        duration: 1050
+      });
+    }
+
+    function fitToFeatures(features) {
+      const geometries = features.map((feature) => feature?.geometry).filter(Boolean);
+      if (geometries.length) fitToGeometry({ type: "GeometryCollection", geometries });
+    }
+
+    function setRouteOnMap(route) {
+      if (!mapReady) return;
+      const source = map.getSource("active-route");
+      const feature = route?.feature?.geometry ? {
+        type: "Feature",
+        id: "active",
+        properties: { name: route.title },
+        geometry: route.feature.geometry
+      } : null;
+      if (source) source.setData({ type: "FeatureCollection", features: feature ? [feature] : [] });
+      syncMobileCoverageOnMap();
+      if (feature) fitToGeometry(feature.geometry);
+    }
+
+    function selectRoute(route) {
+      activeRoute = route;
+      updateDetail(route);
+      renderTrailList();
+      setRouteOnMap(route);
+      for (const technology of ["4g", "5g"]) {
+        if (mobileLayerEnabled[technology]) requestMobileCoverage(route, technology);
+      }
+    }
+
+    function resetMap() {
+      mapScopeMode = "country";
+      mapScope.value = "country";
+      updateScopeControls();
+      renderTrailList();
+      if (!map) return;
+      map.flyTo({ center: [-8.0, 53.35], zoom: 6.2, pitch: terrainEnabled ? 53 : 0, bearing: terrainEnabled ? -8 : 0, duration: 1100 });
+    }
+
+    function xmlChildrenByName(node, name) {
+      return Array.from(node?.getElementsByTagNameNS?.("*", name) || []);
+    }
+
+    function localName(node) {
+      return (node.localName || node.nodeName || "").toLowerCase().replace(/^.*:/, "");
+    }
+
+    function pointsInNode(node, wantedName) {
+      return Array.from(node?.getElementsByTagNameNS?.("*", wantedName) || []).map((point) => {
+        const lon = Number(point.getAttribute("lon"));
+        const lat = Number(point.getAttribute("lat"));
+        const elevationNode = Array.from(point.children || []).find((child) => localName(child) === "ele");
+        const elevation = elevationNode ? Number(elevationNode.textContent) : null;
+        if (!Number.isFinite(lon) || !Number.isFinite(lat)) return null;
+        return Number.isFinite(elevation) ? [lon, lat, elevation] : [lon, lat];
+      }).filter(Boolean);
+    }
+
+    function parseGpx(xmlText, fileName) {
+      const doc = new DOMParser().parseFromString(xmlText, "application/xml");
+      if (doc.querySelector("parsererror") || !xmlChildrenByName(doc, "gpx").length) throw new Error("This file does not look like a valid GPX file.");
+      const lines = [];
+      const tracks = xmlChildrenByName(doc, "trk");
+      for (const track of tracks) {
+        const segments = xmlChildrenByName(track, "trkseg").map((segment) => pointsInNode(segment, "trkpt")).filter((line) => line.length > 1);
+        if (segments.length) lines.push(...segments);
+        else {
+          const points = pointsInNode(track, "trkpt");
+          if (points.length > 1) lines.push(points);
+        }
+      }
+      for (const route of xmlChildrenByName(doc, "rte")) {
+        const points = pointsInNode(route, "rtept");
+        if (points.length > 1) lines.push(points);
+      }
+      if (!lines.length) throw new Error("No track or route points were found in this GPX file.");
+      const nameNode = xmlChildrenByName(doc, "name")[0];
+      const title = nameNode?.textContent?.trim() || fileName.replace(/\.gpx$/i, "") || "Imported GPX route";
+      const geometry = lines.length === 1
+        ? { type: "LineString", coordinates: lines[0] }
+        : { type: "MultiLineString", coordinates: lines };
+      return { type: "Feature", properties: { Name: title, Activity: "GPX route" }, geometry };
+    }
+
+    async function importGpxFile(file) {
+      if (!file) return;
+      if (file.size > 25 * 1024 * 1024) {
+        alert("This GPX is over 25 MB. Choose a smaller file.");
+        return;
+      }
+      try {
+        const feature = parseGpx(await file.text(), file.name);
+        searchInput.value = "";
+        queryText = "";
+        renderTrailList();
+        selectRoute({ feature, title: routeName(feature), kind: "gpx" });
+      } catch (error) {
+        alert(error instanceof Error ? error.message : "Could not read that GPX file.");
+      } finally {
+        gpxInput.value = "";
+      }
+    }
+
+    function openTrailCacheDatabase() {
+      return new Promise((resolve, reject) => {
+        if (!window.indexedDB) {
+          resolve(null);
+          return;
+        }
+        const request = window.indexedDB.open(TRAIL_CACHE_DB, TRAIL_CACHE_SCHEMA);
+        request.onupgradeneeded = () => {
+          const database = request.result;
+          if (!database.objectStoreNames.contains(TRAIL_CACHE_STORE)) database.createObjectStore(TRAIL_CACHE_STORE, { keyPath: "key" });
+        };
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error || new Error("Could not open local trail cache"));
+      });
+    }
+
+    async function readCachedTrails() {
+      let database = null;
+      try {
+        database = await openTrailCacheDatabase();
+        if (!database) return null;
+        return await new Promise((resolve, reject) => {
+          const transaction = database.transaction(TRAIL_CACHE_STORE, "readonly");
+          const request = transaction.objectStore(TRAIL_CACHE_STORE).get(TRAIL_LAYER);
+          request.onsuccess = () => {
+            const cached = request.result;
+            resolve(cached?.schemaVersion === TRAIL_CACHE_SCHEMA && Array.isArray(cached.features) ? cached : null);
+          };
+          request.onerror = () => reject(request.error || new Error("Could not read local trail cache"));
+        });
+      } catch (error) {
+        console.warn("Could not read the local trail cache", error);
+        return null;
+      } finally {
+        database?.close();
+      }
+    }
+
+    async function cacheTrails(features) {
+      let database = null;
+      try {
+        database = await openTrailCacheDatabase();
+        if (!database) return false;
+        await new Promise((resolve, reject) => {
+          const transaction = database.transaction(TRAIL_CACHE_STORE, "readwrite");
+          transaction.oncomplete = () => resolve();
+          transaction.onerror = () => reject(transaction.error || new Error("Could not save local trail cache"));
+          transaction.onabort = () => reject(transaction.error || new Error("Local trail cache save was cancelled"));
+          transaction.objectStore(TRAIL_CACHE_STORE).put({
+            key: TRAIL_LAYER,
+            schemaVersion: TRAIL_CACHE_SCHEMA,
+            savedAt: Date.now(),
+            features
+          });
+        });
+        return true;
+      } catch (error) {
+        console.warn("Could not save the local trail cache", error);
+        return false;
+      } finally {
+        database?.close();
+      }
+    }
+
+    function applyTrailFeatures(features) {
+      trails = features.filter((feature) => feature?.geometry && lineParts(feature.geometry).some((line) => line.length > 1));
+      trails.sort((a, b) => routeName(a).localeCompare(routeName(b)));
+      populateFilterOptions(countyFilter, trails.map(routeCounty), "Choose a county");
+      populateFilterOptions(activityFilter, trails.map(routeActivity), "All activities");
+      populateFilterOptions(gradeFilter, trails.map(routeGrade), "All grades");
+      updateScopeControls();
+      updateFilterSummary();
+      renderTrailList();
+    }
+
+    async function loadTrails() {
+      setStatus("Loading trail register", "loading");
+      const cached = await readCachedTrails();
+      if (cached?.features?.length) {
+        applyTrailFeatures(cached.features);
+        if (trails.length) {
+          const cacheAge = Date.now() - Number(cached.savedAt);
+          if (Number.isFinite(cacheAge) && cacheAge >= 0 && cacheAge < TRAIL_CACHE_TTL_MS) {
+            setStatus(`${trails.length} registered trails · cached`, "ready");
+            return;
+          }
+          setStatus("Refreshing cached trail data", "loading");
+        }
+      }
+      try {
+        const response = await fetch(TRAIL_LAYER, { headers: { Accept: "application/geo+json, application/json" } });
+        if (!response.ok) throw new Error(`Trail register returned ${response.status}`);
+        const data = await response.json();
+        if (data.error) throw new Error(data.error.message || "The trail register returned an error.");
+        const validFeatures = (data.features || []).filter((feature) => feature?.geometry && lineParts(feature.geometry).some((line) => line.length > 1));
+        if (!validFeatures.length) throw new Error("The trail register contained no usable route geometry.");
+        applyTrailFeatures(validFeatures);
+        await cacheTrails(trails);
+        setStatus(`${trails.length} registered trails`, trails.length ? "ready" : "error");
+      } catch (error) {
+        if (trails.length) {
+          setStatus(`${trails.length} registered trails · cached`, "ready");
+          console.warn("Could not refresh Sport Ireland trails; using the cached copy", error);
+        } else {
+          renderTrailList();
+          routeCount.textContent = "Unavailable";
+          setStatus("Trail register unavailable", "error");
+          console.error("Could not load Sport Ireland trails", error);
+        }
+      }
+    }
+
+    function initMap() {
+      map = new maplibregl.Map({
+        container: "map",
+        center: [-8.0, 53.35],
+        zoom: 6.2,
+        pitch: terrainEnabled ? 53 : 0,
+        bearing: terrainEnabled ? -8 : 0,
+        maxPitch: 78,
+        minZoom: 4.5,
+        maxZoom: 17,
+        attributionControl: true,
+        style: {
+          version: 8,
+          sources: {
+            osm: {
+              type: "raster",
+              tiles: [OSM_TILES],
+              tileSize: 256,
+              maxzoom: 19,
+              attribution: '<a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors</a>'
+            },
+            terrain: {
+              type: "raster-dem",
+              tiles: [AWS_TERRAIN_TILES],
+              tileSize: 256,
+              maxzoom: 15,
+              encoding: "terrarium",
+              attribution: '<a href="https://registry.opendata.aws/terrain-tiles/">Mapzen Terrain Tiles</a>'
+            }
+          },
+          layers: [
+            { id: "osm", type: "raster", source: "osm", paint: { "raster-saturation": -0.32, "raster-contrast": 0.05 } },
+            { id: "hillshade", type: "hillshade", source: "terrain", layout: { visibility: terrainEnabled ? "visible" : "none" }, paint: { "hillshade-shadow-color": "#23372d", "hillshade-highlight-color": "#fffef6", "hillshade-accent-color": "#71816e", "hillshade-exaggeration": 0.28 } }
+          ],
+          sky: { "sky-color": "#dce8ed", "horizon-color": "#edf2e9", "fog-color": "#e9efe8", "fog-ground-blend": 0.35, "horizon-fog-blend": 0.18 }
+        }
+      });
+      map.addControl(new maplibregl.NavigationControl({ visualizePitch: true, showZoom: true, showCompass: false }), "bottom-right");
+      map.on("load", () => {
+        mapReady = true;
+        $("#layer-grade").checked = gradeLayerEnabled;
+        $("#layer-terrain").checked = terrainEnabled;
+        $("#layer-amenities").checked = amenitiesLayerEnabled;
+        $("#layer-photos").checked = photosLayerEnabled;
+        $("#layer-heritage").checked = heritageLayerEnabled;
+        $("#layer-transport").checked = transportLayerEnabled;
+        $("#layer-mobile-4g").checked = mobileLayerEnabled["4g"];
+        $("#layer-mobile-5g").checked = mobileLayerEnabled["5g"];
+        if (terrainEnabled) map.setTerrain({ source: "terrain", exaggeration: 1.18 });
+        if (map.getLayer("hillshade")) map.setLayoutProperty("hillshade", "visibility", terrainEnabled ? "visible" : "none");
+        map.addSource("registered-trails", { type: "geojson", data: { type: "FeatureCollection", features: [] } });
+        const endpointCanvas = document.createElement("canvas");
+        endpointCanvas.width = 24;
+        endpointCanvas.height = 24;
+        const endpointContext = endpointCanvas.getContext("2d");
+        endpointContext.lineCap = "round";
+        endpointContext.lineJoin = "round";
+        for (const stroke of [{ color: "#ffffff", width: 6 }, { color: "#394740", width: 2.6 }]) {
+          endpointContext.strokeStyle = stroke.color;
+          endpointContext.lineWidth = stroke.width;
+          endpointContext.beginPath();
+          endpointContext.moveTo(6, 6);
+          endpointContext.lineTo(18, 18);
+          endpointContext.moveTo(18, 6);
+          endpointContext.lineTo(6, 18);
+          endpointContext.stroke();
+        }
+        map.addImage("trail-endpoint-x", endpointContext.getImageData(0, 0, 24, 24), { pixelRatio: 2 });
+        map.addSource("trail-endpoints", { type: "geojson", data: { type: "FeatureCollection", features: [] } });
+        map.addLayer({
+          id: "registered-trails-line",
+          type: "line",
+          source: "registered-trails",
+          layout: { "line-cap": "round", "line-join": "round" },
+          paint: {
+            "line-color": "#7a827d",
+            "line-width": ["interpolate", ["linear"], ["zoom"], 5, 1.5, 10, 2.5, 14, 4],
+            "line-opacity": 0.76
+          }
+        });
+        map.addLayer({
+          id: "registered-trails-hit-area",
+          type: "line",
+          source: "registered-trails",
+          layout: { "line-cap": "round", "line-join": "round" },
+          paint: {
+            "line-color": "#356b51",
+            "line-width": ["interpolate", ["linear"], ["zoom"], 5, 16, 10, 20, 14, 24, 17, 26],
+            "line-opacity": 0.01
+          }
+        });
+        map.on("click", "registered-trails-hit-area", (event) => {
+          const markerLayers = ["nearby-place-markers", "trail-photo-markers", "heritage-site-markers", "transit-stop-markers"].filter((layerId) => map.getLayer(layerId));
+          if (markerLayers.length && map.queryRenderedFeatures(event.point, { layers: markerLayers }).length) return;
+          const index = Number(event.features?.[0]?.properties?.routeIndex);
+          const feature = Number.isInteger(index) ? trails[index] : null;
+          if (feature) selectRoute({ feature, title: routeName(feature, index), kind: "register" });
+        });
+        map.on("mouseenter", "registered-trails-hit-area", () => { map.getCanvas().style.cursor = "pointer"; });
+        map.on("mouseleave", "registered-trails-hit-area", () => { map.getCanvas().style.cursor = ""; });
+        map.addSource("active-route", { type: "geojson", data: { type: "FeatureCollection", features: [] } });
+        map.addLayer({ id: "route-outline", type: "line", source: "active-route", layout: { "line-cap": "round", "line-join": "round" }, paint: { "line-color": "#fffaf0", "line-width": ["interpolate", ["linear"], ["zoom"], 5, 5, 12, 11], "line-opacity": 0.92 } });
+        map.addLayer({ id: "route-line", type: "line", source: "active-route", layout: { "line-cap": "round", "line-join": "round" }, paint: { "line-color": "#626c66", "line-width": ["interpolate", ["linear"], ["zoom"], 5, 2.8, 12, 6], "line-opacity": 1 } });
+        map.addSource("route-steepness", { type: "geojson", data: { type: "FeatureCollection", features: activeSteepnessFeatures } });
+        map.addLayer({
+          id: "route-steepness-line",
+          type: "line",
+          source: "route-steepness",
+          layout: { "line-cap": "round", "line-join": "round", visibility: gradeLayerEnabled ? "visible" : "none" },
+          paint: {
+            "line-color": ["match", ["get", "gradeBand"], "flat", "#31a45b", "steep", "#e4a322", "very-steep", "#c94b42", "#78837a"],
+            "line-width": ["interpolate", ["linear"], ["zoom"], 5, 2.8, 12, 6],
+            "line-opacity": 1
+          }
+        });
+        map.addSource("mobile-coverage", { type: "geojson", data: { type: "FeatureCollection", features: [] } });
+        map.addLayer({
+          id: "mobile-coverage-line",
+          type: "line",
+          source: "mobile-coverage",
+          layout: { "line-cap": "round", "line-join": "round", visibility: "none" },
+          paint: {
+            "line-color": ["match", ["get", "signalBand"], "high", "#256947", "usable", "#75a45b", "fringe", "#e3a548", "gap", "#c85146", "#8b938e"],
+            "line-width": ["interpolate", ["linear"], ["zoom"], 5, 2.8, 12, 6],
+            "line-opacity": 1
+          }
+        });
+        map.addLayer({
+          id: "trail-endpoint-markers",
+          type: "symbol",
+          source: "trail-endpoints",
+          minzoom: 8,
+          layout: {
+            "icon-image": "trail-endpoint-x",
+            "icon-size": 0.85,
+            "icon-allow-overlap": true,
+            "icon-ignore-placement": true,
+            "icon-pitch-alignment": "viewport",
+            "icon-rotation-alignment": "viewport"
+          }
+        });
+        map.addSource("nearby-places", { type: "geojson", data: { type: "FeatureCollection", features: [] } });
+        map.addLayer({
+          id: "nearby-place-markers",
+          type: "circle",
+          source: "nearby-places",
+          layout: { visibility: amenitiesLayerEnabled ? "visible" : "none" },
+          paint: {
+            "circle-radius": ["interpolate", ["linear"], ["zoom"], 5, 4, 13, 7],
+            "circle-color": "#2f704d",
+            "circle-stroke-color": "#fffdf7",
+            "circle-stroke-width": 2,
+            "circle-opacity": 0.96
+          }
+        });
+        map.on("click", "nearby-place-markers", (event) => {
+          const feature = event.features?.[0];
+          if (!feature) return;
+          if (nearbyFacilityPopup) nearbyFacilityPopup.remove();
+          nearbyFacilityPopup = new maplibregl.Popup({ closeButton: true, offset: 10, maxWidth: "300px" })
+            .setLngLat(event.lngLat)
+            .setHTML(facilityPopupMarkup(feature))
+            .addTo(map);
+        });
+        map.on("mouseenter", "nearby-place-markers", () => { map.getCanvas().style.cursor = "pointer"; });
+        map.on("mouseleave", "nearby-place-markers", () => { map.getCanvas().style.cursor = ""; });
+        map.addSource("trail-photos-map", { type: "geojson", data: { type: "FeatureCollection", features: [] } });
+        map.addLayer({
+          id: "trail-photo-markers",
+          type: "circle",
+          source: "trail-photos-map",
+          layout: { visibility: photosLayerEnabled ? "visible" : "none" },
+          paint: {
+            "circle-radius": ["interpolate", ["linear"], ["zoom"], 5, 5, 13, 8],
+            "circle-color": "#9c5d9e",
+            "circle-stroke-color": "#fffdf7",
+            "circle-stroke-width": 2,
+            "circle-opacity": 0.96
+          }
+        });
+        map.on("click", "trail-photo-markers", (event) => {
+          const photoId = String(event.features?.[0]?.properties?.photoId || "");
+          const photo = activeTrailPhotos.find((item) => String(item.id) === photoId);
+          if (!photo) return;
+          event.originalEvent?.stopPropagation();
+          if (trailPhotoPopup) trailPhotoPopup.remove();
+          trailPhotoPopup = new maplibregl.Popup({ closeButton: true, offset: 10, maxWidth: "280px" })
+            .setLngLat(event.lngLat)
+            .setHTML(trailPhotoPopupMarkup(photo))
+            .addTo(map);
+        });
+        map.on("mouseenter", "trail-photo-markers", () => { map.getCanvas().style.cursor = "pointer"; });
+        map.on("mouseleave", "trail-photo-markers", () => { map.getCanvas().style.cursor = ""; });
+        map.addSource("heritage-sites", { type: "geojson", data: { type: "FeatureCollection", features: [] } });
+        map.addLayer({
+          id: "heritage-site-markers",
+          type: "circle",
+          source: "heritage-sites",
+          layout: { visibility: heritageLayerEnabled ? "visible" : "none" },
+          paint: {
+            "circle-radius": ["interpolate", ["linear"], ["zoom"], 5, 4.5, 13, 8],
+            "circle-color": "#b2762f",
+            "circle-stroke-color": "#fffdf7",
+            "circle-stroke-width": 2,
+            "circle-opacity": 0.96
+          }
+        });
+        map.on("click", "heritage-site-markers", (event) => {
+          const rendered = event.features?.[0];
+          if (!rendered) return;
+          event.originalEvent?.stopPropagation();
+          const id = String(rendered.id ?? rendered.properties?.OBJECTID ?? "");
+          const feature = heritageSites.find((item) => String(item.id) === id || String(item.properties?.OBJECTID) === id);
+          if (feature) showHeritagePopup(feature, [event.lngLat.lng, event.lngLat.lat]);
+        });
+        map.on("mouseenter", "heritage-site-markers", () => { map.getCanvas().style.cursor = "pointer"; });
+        map.on("mouseleave", "heritage-site-markers", () => { map.getCanvas().style.cursor = ""; });
+        map.addSource("transit-stops", { type: "geojson", data: { type: "FeatureCollection", features: [] } });
+        map.addLayer({
+          id: "transit-stop-markers",
+          type: "circle",
+          source: "transit-stops",
+          layout: { visibility: transportLayerEnabled ? "visible" : "none" },
+          paint: {
+            "circle-radius": ["interpolate", ["linear"], ["zoom"], 5, 5, 13, 8],
+            "circle-color": ["match", ["get", "mode"], "Rail", "#286b90", "Metro", "#4d6099", "Tram", "#8a548a", "Ferry", "#39808a", "#347453"],
+            "circle-stroke-color": "#fffdf7",
+            "circle-stroke-width": 2,
+            "circle-opacity": 0.97
+          }
+        });
+        map.on("click", "transit-stop-markers", (event) => {
+          const rendered = event.features?.[0];
+          if (!rendered) return;
+          event.originalEvent?.stopPropagation();
+          const id = String(rendered.properties?.stop_id ?? rendered.id ?? "");
+          const feature = activeTransitStops.find((item) => String(item.properties?.stop_id ?? item.id) === id);
+          if (feature) showTransitPopup(feature, [event.lngLat.lng, event.lngLat.lat]);
+        });
+        map.on("mouseenter", "transit-stop-markers", () => { map.getCanvas().style.cursor = "pointer"; });
+        map.on("mouseleave", "transit-stop-markers", () => { map.getCanvas().style.cursor = ""; });
+        setNearbyFacilitiesOnMap();
+        setTrailPhotosOnMap();
+        setHeritageSitesOnMap(heritageLayerEnabled ? heritageSites : []);
+        setTransitStopsOnMap(transportLayerEnabled ? activeTransitStops : []);
+        setLoading(false);
+        if (activeRoute) {
+          setRouteOnMap(activeRoute);
+          renderTrailHeritage(activeRoute);
+          renderTrailTransport(activeRoute);
+          for (const technology of ["4g", "5g"]) {
+            if (mobileLayerEnabled[technology]) requestMobileCoverage(activeRoute, technology);
+          }
+        }
+        loadTrails();
+      });
+      map.on("moveend", () => {
+        if (mapScopeMode === "area" && mapReady) renderTrailList();
+      });
+      map.on("error", (event) => {
+        if (!mapReady && event?.error) {
+          setLoading(true, "Connecting to terrain tiles");
+        }
+      });
+      map.on("idle", () => setLoading(false));
+      setLoading(true, "Loading Ireland map");
+    }
+
+    function bindControls() {
+      $("#import-button").addEventListener("click", () => gpxInput.click());
+      gpxInput.addEventListener("change", () => importGpxFile(gpxInput.files?.[0]));
+      $("#reset-map").addEventListener("click", resetMap);
+      $("#north-up").addEventListener("click", () => {
+        if (map) map.easeTo({ bearing: 0, pitch: terrainEnabled ? 53 : 0, duration: 700 });
+      });
+      const layersToggle = $("#layers-toggle-button");
+      const layersMenu = $("#layers-menu");
+      const layerControl = $("#layer-control");
+      const setLayersMenuOpen = (open) => {
+        const visible = Boolean(open);
+        layerControl.dataset.open = String(visible);
+        layersToggle.setAttribute("aria-expanded", String(visible));
+        layersMenu.hidden = !visible;
+      };
+      layersToggle.addEventListener("click", () => setLayersMenuOpen(layersMenu.hidden));
+      document.addEventListener("click", (event) => {
+        if (!layerControl.contains(event.target)) setLayersMenuOpen(false);
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && !layersMenu.hidden) {
+          setLayersMenuOpen(false);
+          layersToggle.focus();
+        }
+      });
+      $("#collapse-sidebar-panel").addEventListener("click", () => setSidebarPanelCollapsed(true));
+      $("#expand-sidebar-panel").addEventListener("click", () => setSidebarPanelCollapsed(false));
+      $("#collapse-detail-panel").addEventListener("click", () => setDetailPanelCollapsed(true));
+      $("#expand-detail-panel").addEventListener("click", () => setDetailPanelCollapsed(false));
+      $("#layer-grade").addEventListener("change", (event) => setGradeLayerEnabled(event.currentTarget.checked));
+      $("#layer-terrain").addEventListener("change", (event) => setTerrainLayerEnabled(event.currentTarget.checked));
+      $("#layer-amenities").addEventListener("change", (event) => setAmenitiesLayerEnabled(event.currentTarget.checked));
+      $("#layer-photos").addEventListener("change", (event) => setPhotosLayerEnabled(event.currentTarget.checked));
+      $("#layer-heritage").addEventListener("change", (event) => setHeritageLayerEnabled(event.currentTarget.checked));
+      $("#layer-transport").addEventListener("change", (event) => setTransportLayerEnabled(event.currentTarget.checked));
+      $("#layer-mobile-4g").addEventListener("change", (event) => setMobileLayerEnabled("4g", event.currentTarget.checked));
+      $("#layer-mobile-5g").addEventListener("change", (event) => setMobileLayerEnabled("5g", event.currentTarget.checked));
+      $("#clear-route").addEventListener("click", () => {
+        activeRoute = null;
+        updateDetail(null);
+        renderTrailList();
+        if (mapReady) map.getSource("active-route")?.setData({ type: "FeatureCollection", features: [] });
+        updateMobileCoveragePanel();
+      });
+      $("#download-gpx").addEventListener("click", () => {
+        if (!activeRoute) return;
+        try {
+          downloadGpx(activeRoute);
+        } catch (error) {
+          alert(error instanceof Error ? error.message : "Could not export this route as GPX.");
+        }
+      });
+      searchInput.addEventListener("input", () => {
+        queryText = searchInput.value.trim().toLowerCase();
+        renderTrailList();
+      });
+      mapScope.addEventListener("change", () => {
+        mapScopeMode = mapScope.value;
+        updateScopeControls();
+        renderTrailList();
+        if (mapScopeMode === "country" && map) {
+          map.flyTo({ center: [-8.0, 53.35], zoom: 6.2, pitch: terrainEnabled ? 53 : 0, bearing: terrainEnabled ? -8 : 0, duration: 900 });
+        } else if (mapScopeMode === "county" && countyFilter.value) {
+          fitToFeatures(trailsInGeographicScope());
+        }
+      });
+      countyFilter.addEventListener("change", () => {
+        updateScopeControls();
+        renderTrailList();
+        if (countyFilter.value) fitToFeatures(trailsInGeographicScope());
+      });
+      [activityFilter, gradeFilter].forEach((filter) => filter.addEventListener("change", () => {
+        updateFilterSummary();
+        renderTrailList();
+      }));
+      trailSort.addEventListener("change", renderTrailList);
+      $("#clear-filters").addEventListener("click", () => {
+        activityFilter.value = "";
+        gradeFilter.value = "";
+        updateFilterSummary();
+        renderTrailList();
+      });
+      window.addEventListener("resize", () => {
+        if (activeRoute) requestAnimationFrame(() => {
+          const metrics = getMetrics(activeRoute.feature, activeRoute.kind);
+          if (!drawCurrentProfile(activeRoute, metrics)) drawProfile([], 0);
+        });
+      });
+    }
+
+    bindControls();
+    try {
+      maplibregl = await import("https://unpkg.com/maplibre-gl@6.11.2/dist/maplibre-gl.mjs");
+      initMap();
+    } catch (error) {
+      setStatus("Map library unavailable", "error");
+      setLoading(true, "Map library could not be loaded");
+      routeList.innerHTML = '<div class="empty-state"><strong>Map could not start</strong>Check your connection and reload the page. You can still choose a GPX after the map loads.</div>';
+      console.error("Could not load MapLibre", error);
+    }
+  </script>
+</body>
+</html>
