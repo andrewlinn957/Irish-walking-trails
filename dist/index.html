@@ -3240,8 +3240,60 @@
       });
     }
 
-    function steepnessFeaturesFromSamples(profile) {
+    function routeLineMetrics(geometry) {
+      let offset = 0;
+      return lineParts(geometry).filter((line) => line.length > 1).map((coordinates) => {
+        const cumulative = [0];
+        for (let index = 1; index < coordinates.length; index++) {
+          cumulative.push(cumulative.at(-1) + haversine(coordinates[index - 1], coordinates[index]));
+        }
+        const metrics = { coordinates, cumulative, offset, length: cumulative.at(-1) };
+        offset += metrics.length;
+        return metrics;
+      });
+    }
+
+    function routeSublineBetweenDistances(lines, lineIndex, startDistance, endDistance) {
+      const metrics = lines[lineIndex];
+      if (!metrics || endDistance <= startDistance) return [];
+      const { coordinates: line, cumulative } = metrics;
+      const localStart = Math.max(0, startDistance - metrics.offset);
+      const localEnd = Math.min(metrics.length, endDistance - metrics.offset);
+      if (localEnd <= localStart) return [];
+
+      const pointAtDistance = (target) => {
+        let low = 1;
+        let high = cumulative.length - 1;
+        while (low < high) {
+          const middle = Math.floor((low + high) / 2);
+          if (cumulative[middle] < target) low = middle + 1;
+          else high = middle;
+        }
+        const endIndex = low;
+        const startIndex = Math.max(0, endIndex - 1);
+        const segmentLength = cumulative[endIndex] - cumulative[startIndex];
+        const fraction = segmentLength > 0 ? Math.max(0, Math.min(1, (target - cumulative[startIndex]) / segmentLength)) : 0;
+        const start = line[startIndex];
+        const end = line[endIndex];
+        return [
+          Number(start[0]) + (Number(end[0]) - Number(start[0])) * fraction,
+          Number(start[1]) + (Number(end[1]) - Number(start[1])) * fraction
+        ];
+      };
+
+      const coordinates = [pointAtDistance(localStart)];
+      for (let index = 1; index < line.length - 1; index++) {
+        if (cumulative[index] > localStart + 0.01 && cumulative[index] < localEnd - 0.01) {
+          coordinates.push([Number(line[index][0]), Number(line[index][1])]);
+        }
+      }
+      coordinates.push(pointAtDistance(localEnd));
+      return coordinates.length > 1 ? coordinates : [];
+    }
+
+    function steepnessFeaturesFromSamples(profile, geometry) {
       const samples = smoothElevationSamples(profile);
+      const lines = routeLineMetrics(geometry);
       const features = [];
       for (let index = 1; index < samples.length; index++) {
         const previous = samples[index - 1];
@@ -3251,10 +3303,12 @@
         if (!Number.isFinite(horizontalDistance) || horizontalDistance < 5) continue;
         const gradePercent = Math.abs(current.elevation - previous.elevation) / horizontalDistance * 100;
         const gradeBand = gradePercent < FLAT_GRADE_MAX_PERCENT ? "flat" : gradePercent < STEEP_GRADE_MAX_PERCENT ? "steep" : "very-steep";
+        const coordinates = routeSublineBetweenDistances(lines, current.lineIndex, previous.distance, current.distance);
+        if (coordinates.length < 2) continue;
         features.push({
           type: "Feature",
           properties: { gradeBand, gradePercent: Math.round(gradePercent * 10) / 10 },
-          geometry: { type: "LineString", coordinates: [previous.point.slice(0, 2), current.point.slice(0, 2)] }
+          geometry: { type: "LineString", coordinates }
         });
       }
       return features;
@@ -3263,7 +3317,7 @@
     function recordedSteepnessFeatures(route) {
       const elevation = elevationData(route.feature, route.kind !== "gpx");
       if (elevation.profile.length < 2) return [];
-      return steepnessFeaturesFromSamples(terrainRouteSamples(route.feature.geometry, MAX_SLOPE_SAMPLES, 20));
+      return steepnessFeaturesFromSamples(terrainRouteSamples(route.feature.geometry, MAX_SLOPE_SAMPLES, 20), route.feature.geometry);
     }
 
     function setSteepnessFeatures(route, features, sourceLabel = "") {
@@ -3314,7 +3368,7 @@
       try {
         const result = terrainProfileCache.get(feature) || await request;
         terrainProfileCache.set(feature, result);
-        setSteepnessFeatures(route, steepnessFeaturesFromSamples(result.profile), "Terrain elevation estimate · absolute grade");
+        setSteepnessFeatures(route, steepnessFeaturesFromSamples(result.profile, route.feature.geometry), "Terrain elevation estimate · absolute grade");
         if (activeRoute === route) drawCurrentProfile(route, getMetrics(feature, route.kind));
       } catch (error) {
         if (activeRoute === route) {
@@ -3928,9 +3982,9 @@
           source: "registered-trails",
           layout: { "line-cap": "round", "line-join": "round" },
           paint: {
-            "line-color": "#7a827d",
+            "line-color": "#45a9d8",
             "line-width": ["interpolate", ["linear"], ["zoom"], 5, 1.5, 10, 2.5, 14, 4],
-            "line-opacity": 0.76
+            "line-opacity": 0.9
           }
         });
         map.addLayer({
@@ -3955,7 +4009,7 @@
         map.on("mouseleave", "registered-trails-hit-area", () => { map.getCanvas().style.cursor = ""; });
         map.addSource("active-route", { type: "geojson", data: { type: "FeatureCollection", features: [] } });
         map.addLayer({ id: "route-outline", type: "line", source: "active-route", layout: { "line-cap": "round", "line-join": "round" }, paint: { "line-color": "#fffaf0", "line-width": ["interpolate", ["linear"], ["zoom"], 5, 5, 12, 11], "line-opacity": 0.92 } });
-        map.addLayer({ id: "route-line", type: "line", source: "active-route", layout: { "line-cap": "round", "line-join": "round" }, paint: { "line-color": "#626c66", "line-width": ["interpolate", ["linear"], ["zoom"], 5, 2.8, 12, 6], "line-opacity": 1 } });
+        map.addLayer({ id: "route-line", type: "line", source: "active-route", layout: { "line-cap": "round", "line-join": "round" }, paint: { "line-color": "#45a9d8", "line-width": ["interpolate", ["linear"], ["zoom"], 5, 2.8, 12, 6], "line-opacity": 1 } });
         map.addSource("route-steepness", { type: "geojson", data: { type: "FeatureCollection", features: activeSteepnessFeatures } });
         map.addLayer({
           id: "route-steepness-line",
