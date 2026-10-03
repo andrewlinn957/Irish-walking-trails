@@ -35,7 +35,7 @@ Terrain-derived elevations are estimates. GPX export avoids presenting these est
 
 ### Mobile signal estimates
 
-The route estimator combines ComReg’s public 2026 Q1 mobile licence site schedules with terrain, CORINE land cover and ITU-R radio-climatology inputs. It uses licensed LTE/NR bands and maximum EIRP, terrain path sampling and P.1812-related diffraction calculations, including delta-Bullington diffraction, with a receiver height of 1.5 m.
+The route estimator combines ComReg’s public 2026 Q1 mobile licence site schedules with terrain, Sentinel-derived CLC+ land cover and ITU-R radio-climatology inputs. It estimates signal continuously along the route rather than assigning a value from the map’s display grid.
 
 Results represent the best modelled link across Eir, Three and Vodafone. When both technology layers are selected, the map uses the stronger estimated category for each route segment.
 
@@ -54,7 +54,7 @@ These are exploratory signal estimates, rather than measured coverage or a guara
 | Bus and rail stops and route labels | [National Transport Authority GTFS](https://data.gov.ie/dataset/nta-gtfs) |
 | Photographs | [Wikimedia Commons](https://commons.wikimedia.org/), with individual image credits and licences |
 | Mobile site catalogue | [ComReg mobile licence schedules](https://www.comreg.ie/industry/radio-spectrum/licensing/search-licence-type/mobile-licences-2/) |
-| Land cover | [Copernicus / EEA CORINE Land Cover 2018](https://land.copernicus.eu/en/products/corine-land-cover/clc2018) |
+| Land cover | [Copernicus Land Monitoring Service CLC+ Backbone 2021](https://land.copernicus.eu/en/products/clc-backbone/clc-backbone-2021), with CORINE Land Cover 2018 as a fallback where CLC+ data are unavailable |
 | Radio-climatology | [ITU-R P.1812-8 digital products](https://www.itu.int/rec/R-REC-P.1812/en) |
 
 The interface includes source acknowledgements and licence information. Third-party datasets and photographs retain their respective licences.
@@ -74,10 +74,12 @@ The interface includes source acknowledgements and licence information. Third-pa
 This repository is a backup snapshot of the hosted Site, rather than an automatic deployment pipeline.
 
 - `dist/index.html` — static HTML, CSS and JavaScript interface.
-- `dist/data/` — derived mobile site, land-cover, climate and transport inputs.
+- `dist/data/` — derived mobile site, land-cover, climate and transport inputs, including the versioned route-estimator bundle.
 - `scripts/build-mobile-sites.py` — builds the mobile site catalogue from ComReg workbooks; requires `openpyxl`.
 - `scripts/build-mobile-propagation-data.py` — prepares land-cover tiles and radio-climatology inputs; requires Pillow.
+- `scripts/build-mobile-model-assets.py` — assembles a versioned route-estimator bundle from the site catalogue, height inventory and national clutter/climate inputs.
 - `scripts/test-mobile-propagation.mjs` — verification script for mobile propagation calculations.
+- `scripts/test-mobile-model-assets.py` — checks bundle joins and asset integrity.
 - Original backup metadata: Site version **27**, source snapshot commit `ab799574ac331782e9e1310009fb8701b71010a5`.
 
 The complete HTML and mobile/transport datasets have been restored from the original source snapshot. To serve the static app locally, run `python -m http.server 8000 --directory dist` from the repository root, then open `http://localhost:8000`. External data services still require an internet connection.

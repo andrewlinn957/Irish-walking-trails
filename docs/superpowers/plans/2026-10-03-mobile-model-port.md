@@ -16,7 +16,7 @@
 
 - Create `scripts/build-mobile-model-assets.py`: deterministic import of site-height values and CLC+ tiles from the local coverage-model checkout into app static assets.
 - Modify `dist/index.html`: read the appended site height, pass it to propagation calculation, and load the new CLC+ asset bundle without adding detailed user-facing copy.
-- Replace generated `dist/data/mobile-sites.json` and `dist/data/mobile-clutter/*`; create `dist/data/mobile-model-metadata.json` for source identifiers, counts and checksums.
+- Create a versioned bundle under `dist/data/mobile-model-2026-10-03/` containing the enriched site catalogue, CLC+ clutter tiles, climate input and manifest; leave old assets intact for rollback.
 - Modify `scripts/test-mobile-propagation.mjs` and create `scripts/test-mobile-model-assets.py`: cover runtime height use and importer joins/fallbacks.
 - Modify `README.md`: update the named clutter source, without adding calculation detail to the interface.
 
@@ -43,9 +43,9 @@
 
 **Files:**
 - Create `scripts/build-mobile-model-assets.py`.
-- Modify `dist/data/mobile-sites.json`.
-- Replace the 58 files and metadata in `dist/data/mobile-clutter/`.
-- Create `dist/data/mobile-model-metadata.json`.
+- Create `dist/data/mobile-model-2026-10-03/mobile-sites.json`.
+- Copy the 57 CLC+ tiles and metadata into `dist/data/mobile-model-2026-10-03/mobile-clutter/`.
+- Create the versioned climate input and `mobile-model-metadata.json` manifest.
 - Test in `scripts/test-mobile-model-assets.py`.
 
 **Acceptance Criteria:**
@@ -53,7 +53,7 @@
 - Append a finite numeric transmitter height for every site; use 30 m where the source estimate is blank.
 - Copy CLC+ scenario 160 m tiles byte-for-byte from the canonical source bundle, retaining its CORINE fallback and sea flags.
 - The runtime site catalogue contains no planning quote, application number, proposal status, or workbook content.
-- Manifest records source revision, source paths, row counts and SHA-256 checksums; importer writes only after all inputs pass validation.
+- Manifest records source revision, counts, source identifiers and SHA-256 checksums; importer stages output only after all inputs pass validation.
 
 **Verify:** `python3 -m unittest scripts/test-mobile-model-assets.py`; run importer with `--coverage-repo /root/.openclaw/workspace/projects/ireland-mobile-coverage`; parse output and compare site count, coordinate matches, tile names and hashes with inputs.
 
@@ -68,7 +68,7 @@
 - Test in `scripts/test-mobile-propagation.mjs`.
 
 **Acceptance Criteria:**
-- Candidate selection keeps existing network/band behaviour while carrying `txHeightM` from the catalogue (30 m if absent for backward compatibility).
+- Candidate selection keeps existing network/band behaviour while carrying `transmitterHeightM` from the catalogue (30 m if absent for backward compatibility).
 - Diffraction uses the candidate-specific height for its transmitter endpoint; receiver height remains 1.5 m.
 - Shared settings match the national model: 42 km 4G, 32 km 5G, at most two candidates per network within 18 dB of the strongest, 48 dB link allowance and 160 m terrain/clutter profile sampling.
 - Clutter reader consumes the CLC+ height codes, sea flag and fallback semantics without mixing mismatched asset versions.
@@ -88,10 +88,10 @@
 
 **Acceptance Criteria:**
 - README names the CLC+-based input without adding calculation breakdowns to the app UI.
-- Both technologies work with loaded data; missing or invalid bundle uses the existing recoverable error path and never mixes old clutter tiles with new site heights.
+- Both technologies share the versioned bundle; version checks prevent mixing old clutter tiles with new site heights.
 - Non-signal trail features remain unaffected.
 
-**Verify:** `node --test scripts/test-mobile-propagation.mjs`; `python3 -m unittest scripts/test-mobile-model-assets.py`; inspect `git diff --check`, parse generated JSON, check manifest hashes. Run the available local browser smoke flow for a sample trail if the connected browser is available.
+**Verify:** `node --test scripts/test-mobile-propagation.mjs`; `python3 scripts/test-mobile-model-assets.py`; inspect `git diff --check`, parse generated JSON, check manifest hashes. Inline JavaScript syntax is checked with `node --check`. A full interactive map/browser smoke is not part of the local verification run.
 
 **Steps:** Update only the source description, perform acceptance checks, review final diff for accidental UI copy/data leakage, and report runtime bundle size and remaining parity differences.
 
