@@ -34,10 +34,12 @@ def build(source: Path, output: Path, bounds: list[float], min_zoom: int = 5, ma
     source_tiles = {}
     for name in metadata["tiles"]:
         tile_x, tile_y = map(int, Path(name).stem.split("_"))
-        image = Image.open(source / name).convert("L")
+        # The route estimator reads the red channel of the stored RGBA codes.
+        # Converting to luminance would turn (height, 10, 10) into false values.
+        image = Image.open(source / name).convert("RGBA")
         if image.size != (source_tile_px, source_tile_px):
             raise ValueError(f"unexpected tile dimensions: {name}")
-        source_tiles[(tile_x, tile_y)] = np.asarray(image)
+        source_tiles[(tile_x, tile_y)] = np.asarray(image)[:, :, 0]
 
     west, south, east, north = map(float, bounds)
     min_x = math.floor(min(tile_x for tile_x, _ in source_tiles) * tile_size_m)
