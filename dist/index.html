@@ -305,6 +305,15 @@
     .mobile-coverage-swatch[data-band="fringe"] { background: #e3a548; }
     .mobile-coverage-swatch[data-band="gap"] { background: #c85146; }
     .mobile-coverage-swatch[data-band="unknown"] { background: #8b938e; }
+    .mobile-clutter-legend { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 5px 8px; margin: 0 8px 8px 37px; }
+    .mobile-clutter-legend[hidden] { display: none; }
+    .mobile-clutter-legend-row { display: flex; align-items: center; gap: 5px; color: #53645a; font-size: 11px; white-space: nowrap; }
+    .mobile-clutter-swatch { width: 12px; height: 12px; flex: 0 0 auto; border-radius: 3px; }
+    .mobile-clutter-swatch[data-height="0"] { background: rgba(244,211,94,.9); }
+    .mobile-clutter-swatch[data-height="5"] { background: rgba(142,201,119,.92); }
+    .mobile-clutter-swatch[data-height="10"] { background: rgba(76,153,111,.94); }
+    .mobile-clutter-swatch[data-height="15"] { background: rgba(54,112,139,.96); }
+    .mobile-clutter-swatch[data-height="20"] { background: rgba(111,68,145,.98); }
     #mobile-coverage-summary { display: grid; gap: 4px; margin: 5px 0 8px; color: #344b3c; font-size: 12px; font-weight: 650; }
     .map-credit { position: absolute; z-index: 2; right: 19px; bottom: 83px; max-width: min(650px,calc(100% - 410px)); padding: 7px 10px; color: #506157; background: rgba(249,250,247,.88); border: 1px solid rgba(255,255,255,.75); border-radius: 8px; backdrop-filter: blur(8px); font-size: 11px; line-height: 1.4; }
     .map-credit a { color: #355f49; text-decoration: none; }
@@ -660,6 +669,15 @@
             <label class="layer-choice"><input id="layer-transport" type="checkbox"><span>Getting there<small>Show bus and rail near route ends</small></span></label>
             <label class="layer-choice"><input id="layer-mobile-4g" type="checkbox"><span>Estimated 4G<small>Colour the selected trail</small></span></label>
             <label class="layer-choice"><input id="layer-mobile-5g" type="checkbox"><span>Estimated 5G<small>Colour the selected trail</small></span></label>
+            <label class="layer-choice"><input id="layer-mobile-clutter" type="checkbox"><span>Clutter height<small>Show the model's land-cover heights</small></span></label>
+            <div id="mobile-clutter-legend" class="mobile-clutter-legend" hidden aria-label="Clutter height legend">
+              <span class="mobile-clutter-legend-row"><i class="mobile-clutter-swatch" data-height="0"></i>0 m</span>
+              <span class="mobile-clutter-legend-row"><i class="mobile-clutter-swatch" data-height="5"></i>5 m</span>
+              <span class="mobile-clutter-legend-row"><i class="mobile-clutter-swatch" data-height="10"></i>10 m</span>
+              <span class="mobile-clutter-legend-row"><i class="mobile-clutter-swatch" data-height="15"></i>15 m</span>
+              <span class="mobile-clutter-legend-row"><i class="mobile-clutter-swatch" data-height="20"></i>20 m</span>
+            </div>
+            <div id="mobile-clutter-status" class="layer-status" role="status" aria-live="polite"></div>
           </div>
         </div>
         <button id="north-up" class="map-tool" type="button" aria-label="Reset map orientation" title="Reset map orientation">
@@ -702,6 +720,8 @@
     let photosLayerEnabled = false;
     let heritageLayerEnabled = false;
     let transportLayerEnabled = false;
+    let mobileClutterLayerEnabled = false;
+    let mobileClutterOverlayPromise = null;
     const mobileLayerEnabled = { "4g": false, "5g": false };
     let trails = [];
     let activeRoute = null;
@@ -748,6 +768,7 @@
     const MOBILE_TERRAIN_ZOOM = 10;
     const MOBILE_SITES_URL = `${MOBILE_MODEL_BASE}/mobile-sites.json`;
     const MOBILE_CLUTTER_URL = `${MOBILE_MODEL_BASE}/mobile-clutter/metadata.json`;
+    const MOBILE_CLUTTER_MAP_URL = `${MOBILE_MODEL_BASE}/mobile-clutter-map/metadata.json`;
     const MOBILE_CLIMATE_URL = `${MOBILE_MODEL_BASE}/mobile-climate.json`;
     const MOBILE_MODEL_METADATA_URL = `${MOBILE_MODEL_BASE}/mobile-model-metadata.json`;
     const MOBILE_NETWORK_MAX_RANGE_M = Object.freeze({ "4g": 42000, "5g": 32000 });
@@ -3147,6 +3168,64 @@
       else $("#mobile-coverage-status").textContent = "Select a trail or upload a GPX route to calculate an estimate.";
     }
 
+    async function ensureMobileClutterOverlay() {
+      if (map.getSource("mobile-clutter-height")) return;
+      if (!mobileClutterOverlayPromise) {
+        mobileClutterOverlayPromise = fetch(MOBILE_CLUTTER_MAP_URL, { headers: { Accept: "application/json" } })
+          .then(async (response) => {
+            if (!response.ok) throw new Error(`Clutter overlay metadata returned ${response.status}`);
+            const metadata = await response.json();
+            if (metadata.modelVersion !== MOBILE_MODEL_VERSION || !Array.isArray(metadata.bounds)
+              || metadata.bounds.length !== 4 || !Number.isInteger(metadata.minZoom) || !Number.isInteger(metadata.maxZoom)) {
+              throw new Error("Clutter overlay assets do not match the current mobile model version");
+            }
+            map.addSource("mobile-clutter-height", {
+              type: "raster",
+              tiles: [`${MOBILE_MODEL_BASE}/mobile-clutter-map/{z}/{x}/{y}.png`],
+              tileSize: Number(metadata.tileSize) || 256,
+              minzoom: metadata.minZoom,
+              maxzoom: metadata.maxZoom,
+              bounds: metadata.bounds,
+              attribution: '<a href="https://land.copernicus.eu/en/products/clc-backbone/clc-backbone-2021" target="_blank" rel="noreferrer">CLC+ Backbone 2021</a>'
+            });
+            map.addLayer({
+              id: "mobile-clutter-height-layer",
+              type: "raster",
+              source: "mobile-clutter-height",
+              layout: { visibility: mobileClutterLayerEnabled ? "visible" : "none" },
+              paint: { "raster-opacity": 1, "raster-resampling": "nearest" }
+            }, map.getLayer("registered-trails-line") ? "registered-trails-line" : undefined);
+          })
+          .catch((error) => {
+            mobileClutterOverlayPromise = null;
+            throw error;
+          });
+      }
+      return mobileClutterOverlayPromise;
+    }
+
+    function setMobileClutterLayerEnabled(enabled) {
+      mobileClutterLayerEnabled = Boolean(enabled);
+      $("#layer-mobile-clutter").checked = mobileClutterLayerEnabled;
+      $("#mobile-clutter-legend").hidden = !mobileClutterLayerEnabled;
+      if (!mapReady) return;
+      if (!mobileClutterLayerEnabled) {
+        if (map.getLayer("mobile-clutter-height-layer")) map.setLayoutProperty("mobile-clutter-height-layer", "visibility", "none");
+        $("#mobile-clutter-status").textContent = "";
+        return;
+      }
+      $("#mobile-clutter-status").textContent = "Loading clutter layer…";
+      ensureMobileClutterOverlay().then(() => {
+        if (map.getLayer("mobile-clutter-height-layer")) {
+          map.setLayoutProperty("mobile-clutter-height-layer", "visibility", mobileClutterLayerEnabled ? "visible" : "none");
+        }
+        $("#mobile-clutter-status").textContent = "";
+      }).catch((error) => {
+        $("#mobile-clutter-status").textContent = "Clutter layer could not be loaded.";
+        console.warn("Could not load the clutter-height overlay", error);
+      });
+    }
+
     function smoothElevationSamples(samples) {
       return samples.map((sample, index) => {
         if (!Number.isFinite(sample.elevation)) return sample;
@@ -3821,6 +3900,7 @@
         $("#layer-transport").checked = transportLayerEnabled;
         $("#layer-mobile-4g").checked = mobileLayerEnabled["4g"];
         $("#layer-mobile-5g").checked = mobileLayerEnabled["5g"];
+        $("#layer-mobile-clutter").checked = mobileClutterLayerEnabled;
         if (terrainEnabled) map.setTerrain({ source: "terrain", exaggeration: 1.18 });
         if (map.getLayer("hillshade")) map.setLayoutProperty("hillshade", "visibility", terrainEnabled ? "visible" : "none");
         map.addSource("registered-trails", { type: "geojson", data: { type: "FeatureCollection", features: [] } });
@@ -4079,6 +4159,7 @@
       $("#layer-transport").addEventListener("change", (event) => setTransportLayerEnabled(event.currentTarget.checked));
       $("#layer-mobile-4g").addEventListener("change", (event) => setMobileLayerEnabled("4g", event.currentTarget.checked));
       $("#layer-mobile-5g").addEventListener("change", (event) => setMobileLayerEnabled("5g", event.currentTarget.checked));
+      $("#layer-mobile-clutter").addEventListener("change", (event) => setMobileClutterLayerEnabled(event.currentTarget.checked));
       $("#clear-route").addEventListener("click", () => {
         activeRoute = null;
         updateDetail(null);

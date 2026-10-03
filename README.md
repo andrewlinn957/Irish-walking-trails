@@ -24,6 +24,7 @@ An interactive map for people choosing and planning walks in Ireland. Explore Sp
 | Getting there | Bus and rail stops within 5 km of route ends, with route labels and a link to Transport for Ireland’s journey planner. |
 | Nearby photos | Geotagged Wikimedia Commons photographs within 200 m of the route, with creator and licence links. |
 | Estimated 4G and 5G | Colours the selected trail by modelled signal strength and summarises the distance in each signal category. |
+| Clutter height | Shows the representative land-cover heights used as an input to the route signal model. |
 
 Layers can be switched on and off from the map’s layer menu. Trail grade and amenities are enabled by default; 3D terrain, photos, heritage, transport and mobile estimates are optional.
 
@@ -78,10 +79,13 @@ This repository is a backup snapshot of the hosted Site, rather than an automati
 - `scripts/build-mobile-sites.py` — builds the mobile site catalogue from ComReg workbooks; requires `openpyxl`.
 - `scripts/build-mobile-propagation-data.py` — prepares land-cover tiles and radio-climatology inputs; requires Pillow.
 - `scripts/build-mobile-model-assets.py` — assembles a versioned route-estimator bundle from the site catalogue, height inventory and national clutter/climate inputs.
+- `scripts/build-mobile-clutter-map.py` — packages the route model's clutter-height raster as a zoomable, transparent XYZ overlay.
 - `scripts/test-mobile-propagation.mjs` — verification script for mobile propagation calculations.
 - `scripts/test-mobile-model-assets.py` — checks bundle joins and asset integrity.
 - Original backup metadata: Site version **27**, source snapshot commit `ab799574ac331782e9e1310009fb8701b71010a5`.
 
 The complete HTML and mobile/transport datasets have been restored from the original source snapshot. To serve the static app locally, run `python -m http.server 8000 --directory dist` from the repository root, then open `http://localhost:8000`. External data services still require an internet connection.
+
+To regenerate the clutter overlay, pass the versioned route-model `mobile-clutter` directory and the national map bounds to `scripts/build-mobile-clutter-map.py`; the output is written alongside that bundle under `mobile-clutter-map/`.
 
 Updating files here does not automatically update the hosted Site.
