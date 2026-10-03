@@ -520,7 +520,7 @@
 
         <details id="data-sources" class="source-menu">
           <summary>Data sources &amp; credits</summary>
-          <div class="source-note">Trail data © <a href="https://data.gov.ie/dataset/getirelandactive_trailroutes" target="_blank" rel="noreferrer">Sport Ireland</a> · CC BY 4.0. The register is cached in this browser for up to 24 hours, with older cached routes available if the source cannot be reached.<br>Nearby activity locations © <a href="https://data.gov.ie/dataset/getirelandactive_activitylocations" target="_blank" rel="noreferrer">Get Ireland Active – Sport Ireland 2023</a> · CC BY 4.0<br>Heritage locations © <a href="https://data.gov.ie/dataset/monuments-to-visit-points-of-interest" target="_blank" rel="noreferrer">National Monuments Service · Monuments to Visit</a> · CC BY 4.0<br>Bus, rail and route labels © <a href="https://data.gov.ie/dataset/nta-gtfs" target="_blank" rel="noreferrer">National Transport Authority · GTFS</a> · CC BY 4.0. The map uses a feed snapshot valid 24 September 2026–24 September 2027; check current operator timetables before travelling.<br>Mobile site schedules © <a href="https://www.comreg.ie/industry/radio-spectrum/licensing/search-licence-type/mobile-licences-2/" target="_blank" rel="noreferrer">ComReg</a> · 2026 Q1 non-confidential data. Site coordinates, licensed LTE/NR bands and maximum EIRP are derived into the published catalogue with source acknowledgement.<br>Terrain and paths © <a href="https://registry.opendata.aws/terrain-tiles/" target="_blank" rel="noreferrer">AWS Terrain Tiles</a> (Terrarium elevation tiles).<br>Land cover © <a href="https://land.copernicus.eu/en/products/corine-land-cover/clc2018" target="_blank" rel="noreferrer">Copernicus Land Monitoring Service / EEA, CORINE Land Cover 2018</a>. Radio-climatology © <a href="https://www.itu.int/rec/R-REC-P.1812/en" target="_blank" rel="noreferrer">ITU-R P.1812-8</a> integral digital products.<br>Trail photographs are geotagged images from <a href="https://commons.wikimedia.org/" target="_blank" rel="noreferrer">Wikimedia Commons</a>. Each image links to its creator and individual licence.<br>Weather forecast © <a href="https://open-meteo.com/" target="_blank" rel="noreferrer">Open-Meteo</a> · CC BY 4.0<br>Weather warnings © <a href="https://www.met.ie/about-us/specialised-services/open-data" target="_blank" rel="noreferrer">Met Éireann</a> · Custom Open Data Licence (CC BY 4.0 equivalent). Warnings are matched to the route county, refreshed every minute, and expired alerts are removed. Met Éireann does not accept any liability whatsoever for any error or omission in the data, their availability, or for any loss or damage arising from their use.<br>Imported GPX files are read in your browser and are not uploaded or saved by the site. Route midpoint coordinates are sent to Open-Meteo for weather.<br>Terrain-derived profiles are estimates; listed ascent remains separate.</div>
+          <div class="source-note">Trail data © <a href="https://data.gov.ie/dataset/getirelandactive_trailroutes" target="_blank" rel="noreferrer">Sport Ireland</a> · CC BY 4.0. The register is cached in this browser for up to 24 hours, with older cached routes available if the source cannot be reached.<br>Nearby activity locations © <a href="https://data.gov.ie/dataset/getirelandactive_activitylocations" target="_blank" rel="noreferrer">Get Ireland Active – Sport Ireland 2023</a> · CC BY 4.0<br>Heritage locations © <a href="https://data.gov.ie/dataset/monuments-to-visit-points-of-interest" target="_blank" rel="noreferrer">National Monuments Service · Monuments to Visit</a> · CC BY 4.0<br>Bus, rail and route labels © <a href="https://data.gov.ie/dataset/nta-gtfs" target="_blank" rel="noreferrer">National Transport Authority · GTFS</a> · CC BY 4.0. The map uses a feed snapshot valid 24 September 2026–24 September 2027; check current operator timetables before travelling.<br>Mobile site schedules © <a href="https://www.comreg.ie/industry/radio-spectrum/licensing/search-licence-type/mobile-licences-2/" target="_blank" rel="noreferrer">ComReg</a> · 2026 Q1 non-confidential data. Site coordinates, licensed LTE/NR bands and maximum EIRP are derived into the published catalogue with source acknowledgement.<br>Terrain and paths © <a href="https://registry.opendata.aws/terrain-tiles/" target="_blank" rel="noreferrer">AWS Terrain Tiles</a> (Terrarium elevation tiles).<br>Land cover © <a href="https://land.copernicus.eu/en/products/clc-backbone/clc-backbone-2021" target="_blank" rel="noreferrer">Copernicus Land Monitoring Service CLC+ Backbone 2021</a>. Radio-climatology © <a href="https://www.itu.int/rec/R-REC-P.1812/en" target="_blank" rel="noreferrer">ITU-R P.1812-8</a> integral digital products.<br>Trail photographs are geotagged images from <a href="https://commons.wikimedia.org/" target="_blank" rel="noreferrer">Wikimedia Commons</a>. Each image links to its creator and individual licence.<br>Weather forecast © <a href="https://open-meteo.com/" target="_blank" rel="noreferrer">Open-Meteo</a> · CC BY 4.0<br>Weather warnings © <a href="https://www.met.ie/about-us/specialised-services/open-data" target="_blank" rel="noreferrer">Met Éireann</a> · Custom Open Data Licence (CC BY 4.0 equivalent). Warnings are matched to the route county, refreshed every minute, and expired alerts are removed. Met Éireann does not accept any liability whatsoever for any error or omission in the data, their availability, or for any loss or damage arising from their use.<br>Imported GPX files are read in your browser and are not uploaded or saved by the site. Route midpoint coordinates are sent to Open-Meteo for weather.<br>Terrain-derived profiles are estimates; listed ascent remains separate.</div>
         </details>
         <button id="expand-sidebar-panel" class="panel-rail" type="button" aria-label="Expand trail explorer" aria-expanded="false" title="Expand trail explorer"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m7.5 4.5 5.5 5.5-5.5 5.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Trail explorer</span></button>
       </section>
@@ -743,10 +743,13 @@
     const mobileClutterTileCache = new Map();
     const mobileClutterTilePending = new Map();
     const TERRAIN_PROFILE_ZOOM = 12;
-    const MOBILE_TERRAIN_ZOOM = 11;
-    const MOBILE_SITES_URL = "./data/mobile-sites.json";
-    const MOBILE_CLUTTER_URL = "./data/mobile-clutter/metadata.json";
-    const MOBILE_CLIMATE_URL = "./data/mobile-climate.json";
+    const MOBILE_MODEL_VERSION = "2026-10-03";
+    const MOBILE_MODEL_BASE = `./data/mobile-model-${MOBILE_MODEL_VERSION}`;
+    const MOBILE_TERRAIN_ZOOM = 10;
+    const MOBILE_SITES_URL = `${MOBILE_MODEL_BASE}/mobile-sites.json`;
+    const MOBILE_CLUTTER_URL = `${MOBILE_MODEL_BASE}/mobile-clutter/metadata.json`;
+    const MOBILE_CLIMATE_URL = `${MOBILE_MODEL_BASE}/mobile-climate.json`;
+    const MOBILE_MODEL_METADATA_URL = `${MOBILE_MODEL_BASE}/mobile-model-metadata.json`;
     const MOBILE_NETWORK_MAX_RANGE_M = Object.freeze({ "4g": 42000, "5g": 32000 });
     const MOBILE_ROUTE_MAX_SAMPLES = 420;
     const MOBILE_ROUTE_MIN_SPACING_M = 140;
@@ -2539,10 +2542,20 @@
     async function loadMobileSiteCatalogue() {
       if (!mobileSiteDataPromise) {
         mobileSiteDataPromise = (async () => {
-          const response = await fetch(MOBILE_SITES_URL, { headers: { Accept: "application/json" } });
-          if (!response.ok) throw new Error(`ComReg site catalogue returned ${response.status}`);
-          const data = await response.json();
+          const [response, manifestResponse] = await Promise.all([
+            fetch(MOBILE_SITES_URL, { headers: { Accept: "application/json" } }),
+            fetch(MOBILE_MODEL_METADATA_URL, { headers: { Accept: "application/json" } })
+          ]);
+          if (!response.ok || !manifestResponse.ok) throw new Error("Mobile model site data could not be loaded");
+          const [data, manifest] = await Promise.all([response.json(), manifestResponse.json()]);
           if (!Array.isArray(data.records) || !Array.isArray(data.networks)) throw new Error("ComReg site catalogue has an unexpected format");
+          if (data.modelVersion !== MOBILE_MODEL_VERSION || manifest.modelVersion !== MOBILE_MODEL_VERSION
+            || manifest.siteCounts?.records !== data.records.length) {
+            throw new Error("Mobile model site data does not match its version manifest");
+          }
+          if (data.records.some((site) => !Array.isArray(site) || !Number.isFinite(site[4]) || site[4] < 1 || site[4] > 120)) {
+            throw new Error("Mobile model catalogue has an invalid transmitter-height field");
+          }
           return data;
         })().catch((error) => {
           mobileSiteDataPromise = null;
@@ -2555,14 +2568,19 @@
     async function loadMobilePropagationData() {
       if (!mobilePropagationDataPromise) {
         mobilePropagationDataPromise = (async () => {
-          const [clutterResponse, climateResponse] = await Promise.all([
+          const [clutterResponse, climateResponse, manifestResponse] = await Promise.all([
             fetch(MOBILE_CLUTTER_URL, { headers: { Accept: "application/json" } }),
-            fetch(MOBILE_CLIMATE_URL, { headers: { Accept: "application/json" } })
+            fetch(MOBILE_CLIMATE_URL, { headers: { Accept: "application/json" } }),
+            fetch(MOBILE_MODEL_METADATA_URL, { headers: { Accept: "application/json" } })
           ]);
-          if (!clutterResponse.ok || !climateResponse.ok) throw new Error("Propagation data could not be loaded");
-          const [clutter, climate] = await Promise.all([clutterResponse.json(), climateResponse.json()]);
+          if (!clutterResponse.ok || !climateResponse.ok || !manifestResponse.ok) throw new Error("Propagation data could not be loaded");
+          const [clutter, climate, manifest] = await Promise.all([clutterResponse.json(), climateResponse.json(), manifestResponse.json()]);
           if (!Array.isArray(clutter.tiles) || !Array.isArray(climate.deltaN) || !Array.isArray(climate.latitudes) || !Array.isArray(climate.longitudes)) {
             throw new Error("Propagation data has an unexpected format");
+          }
+          if (clutter.modelVersion !== MOBILE_MODEL_VERSION || climate.modelVersion !== MOBILE_MODEL_VERSION
+            || manifest.modelVersion !== MOBILE_MODEL_VERSION || manifest.clutterPixelSizeProjectedM !== MOBILE_PATH_SAMPLE_SPACING_M) {
+            throw new Error("Propagation assets do not match the current mobile model version");
           }
           return { clutter, climate, clutterTileSet: new Set(clutter.tiles) };
         })().catch((error) => {
@@ -2578,7 +2596,7 @@
       let pending = mobileClutterTilePending.get(filename);
       if (!pending) {
         pending = (async () => {
-      const response = await fetch(`./data/mobile-clutter/${filename}`);
+          const response = await fetch(`${MOBILE_MODEL_BASE}/mobile-clutter/${filename}`);
           if (!response.ok) throw new Error(`Land-cover tile ${filename} returned ${response.status}`);
           const bitmap = await createImageBitmap(await response.blob());
           const canvas = document.createElement("canvas");
@@ -2629,7 +2647,8 @@
         if (!bestBand) continue;
         const networkIndex = Number(site[0]);
         if (!perNetwork[networkIndex]) continue;
-        const candidate = { site, distanceM, nominalDbm, ...bestBand };
+        const transmitterHeightM = Number.isFinite(site[4]) ? site[4] : 30;
+        const candidate = { site, distanceM, nominalDbm, transmitterHeightM, ...bestBand };
         const list = perNetwork[networkIndex];
         list.push(candidate);
         list.sort((a, b) => b.nominalDbm - a.nominalDbm);
@@ -2811,15 +2830,16 @@
       return Math.max(0, (1 - hSe / hReq) * diffraction);
     }
 
-    function p1812DeltaBullingtonDiffraction(terrain, clutter, distanceM, frequencyMHz, deltaN, seaFlags = []) {
+    function p1812DeltaBullingtonDiffraction(terrain, clutter, distanceM, frequencyMHz, deltaN, seaFlags = [], transmitterHeightM = 30) {
       if (terrain.length < 3 || terrain.length !== clutter.length || !Number.isFinite(distanceM) || distanceM <= 0) return null;
       if (terrain.some((value) => !Number.isFinite(value)) || clutter.some((value) => !Number.isFinite(value))) return null;
+      if (!Number.isFinite(transmitterHeightM) || transmitterHeightM < 1 || transmitterHeightM > 120) return null;
       const frequencyGHz = frequencyMHz / 1000;
       const wavelengthM = 0.299792458 / frequencyGHz;
       const effectiveEarthKm = 157 / (157 - deltaN) * 6371;
       if (!(frequencyGHz > 0 && effectiveEarthKm > 0)) return null;
       const distanceKm = distanceM / 1000;
-      const htc = terrain[0] + 30;
+      const htc = terrain[0] + transmitterHeightM;
       const hrc = terrain.at(-1) + 1.5;
       const surface = terrain.map((height, index) => index === 0 || index === terrain.length - 1 ? height : height + clutter[index]);
       const bullingtonActual = p1812BullingtonLoss(surface, htc, hrc, distanceKm, wavelengthM, effectiveEarthKm);
@@ -2948,7 +2968,8 @@
             link.candidate.distanceM,
             link.candidate.frequencyMHz,
             climatology.deltaN,
-            clutter.map((value) => value.sea)
+            clutter.map((value) => value.sea),
+            link.candidate.transmitterHeightM
           );
           if (!Number.isFinite(diffractionDb)) continue;
           usableTerrainBySample.add(link.sampleIndex);
