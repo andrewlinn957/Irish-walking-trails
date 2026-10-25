@@ -176,6 +176,19 @@
     .trail-fact-row dd { min-width: 0; margin: 0; color: #344b3c; overflow-wrap: anywhere; }
     .trail-facts-foot { margin-top: 10px; color: #748077; font-size: 11px; }
     .trail-facts-foot a { color: #42694f; text-underline-offset: 2px; }
+    .trail-maps { margin-top: 12px; padding: 10px; background: #f1f5ee; border: 1px solid #dfe7da; border-radius: 10px; }
+    .trail-maps[hidden] { display: none; }
+    .trail-maps h3 { margin: 0 0 7px; color: #53665a; font-size: 11px; font-weight: 750; letter-spacing: .06em; text-transform: uppercase; }
+    .trail-map-download { display: flex; align-items: center; justify-content: center; gap: 7px; min-height: 40px; padding: 9px 12px; color: #fff; background: var(--pine); border-radius: 7px; font-size: 12px; font-weight: 700; text-decoration: none; }
+    .trail-map-download:hover { background: #245643; }
+    .trail-map-download:focus-visible, .trail-maps a:focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; }
+    .trail-map-download svg { flex-shrink: 0; width: 16px; height: 16px; }
+    .trail-map-caption, .trail-map-status, .trail-map-source { margin: 6px 0 0; color: #69796f; font-size: 11px; line-height: 1.45; overflow-wrap: anywhere; }
+    .trail-map-source a { color: #42694f; text-underline-offset: 2px; }
+    .trail-map-more { margin-top: 9px; font-size: 12px; }
+    .trail-map-more summary { min-height: 32px; padding: 6px 0; color: #42634d; font-weight: 650; cursor: pointer; }
+    .trail-map-list { display: grid; gap: 5px; padding: 0; margin: 4px 0 0; list-style: none; }
+    .trail-map-list a { display: block; padding: 8px; color: #294638; background: #fff; border: 1px solid #e0e7dc; border-radius: 6px; line-height: 1.4; overflow-wrap: anywhere; text-underline-offset: 2px; }
     #weather-text { min-width: 0; flex: 1 1 auto; text-align: right; }
     #weather-warning-count { flex: 0 0 auto; padding: 3px 7px; color: #7a4119; background: #f6e6d4; border-radius: 99px; text-align: center; font-size: 11px; font-weight: 700; }
     #weather-warning-count[hidden], #weather-warning[hidden] { display: none !important; }
@@ -573,6 +586,10 @@
             <div class="stat"><div class="stat-label" id="ascent-label">Ascent</div><div class="stat-value" id="ascent-value">—</div></div>
             <div class="stat" id="grade-stat"><div class="stat-label">Grade</div><div class="stat-value" id="grade-value">—</div></div>
           </div>
+          <section id="trail-maps" class="trail-maps" hidden aria-labelledby="trail-maps-title">
+            <h3 id="trail-maps-title">Maps &amp; guides</h3>
+            <div id="trail-map-links" aria-live="polite"></div>
+          </section>
           <details id="trail-facts" class="detail-section" data-visible="false" aria-label="Trailhead, access and waymarking information">
             <summary><span class="detail-section-title">Trail information</span><span id="trail-facts-summary" class="detail-section-summary">Start point, dog access, time and waymarking</span></summary>
             <div class="detail-section-body">
@@ -816,6 +833,81 @@
     const TRAIL_LAYER = "https://services-eu1.arcgis.com/CltcWyRoZmdwaB7T/ArcGIS/rest/services/GetIrelandActiveTrailRoutes/FeatureServer/0/query?where=1%3D1&outFields=*&returnGeometry=true&returnZ=true&returnM=false&outSR=4326&f=geojson";
     const AWS_TERRAIN_TILES = "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png";
     const OSM_TILES = "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
+    const TRAIL_MAP_LINKS_URL = "./data/trail-map-links.json";
+    let trailMapLinksPromise = null;
+
+    function loadTrailMapLinks() {
+      if (!trailMapLinksPromise) {
+        trailMapLinksPromise = fetch(TRAIL_MAP_LINKS_URL)
+          .then((response) => {
+            if (!response.ok) throw new Error("Could not load official map links");
+            return response.json();
+          })
+          .then((index) => {
+            if (!index.trails || typeof index.trails !== "object") throw new Error("Invalid map index");
+            return index;
+          })
+          .catch((error) => { trailMapLinksPromise = null; throw error; });
+      }
+      return trailMapLinksPromise;
+    }
+
+    function officialTrailUrl(value) {
+      try {
+        const url = new URL(value);
+        return url.protocol === "https:" && url.hostname === "www.sportireland.ie" ? url.href : "";
+      } catch { return ""; }
+    }
+
+    function trailMapLink(item) {
+      try {
+        const url = new URL(item.url);
+        if (!["https:", "http:"].includes(url.protocol) || url.username || url.password) return null;
+        const extension = url.pathname.toLowerCase().match(/\.(pdf|jpe?g|png|webp|gif)$/)?.[1];
+        const format = item.format || (extension === "jpeg" ? "jpg" : extension);
+        const types = { pdf: "application/pdf", jpg: "image/jpeg", png: "image/png", webp: "image/webp", gif: "image/gif", web: "" };
+        if (!Object.hasOwn(types, format)) return null;
+        const resourceType = item.resourceType === "guide" ? "guide" : "map";
+        return { ...item, url: url.href, format, mime: types[format], resourceType };
+      } catch { return null; }
+    }
+
+    async function renderTrailMaps(route) {
+      const section = $("#trail-maps");
+      const links = $("#trail-map-links");
+      links.replaceChildren();
+      section.hidden = route?.kind !== "register";
+      if (section.hidden) return;
+      const properties = route.feature?.properties || {};
+      const pageUrl = officialTrailUrl(firstValue(properties, ["Website"]));
+      const source = () => pageUrl ? `<p class="trail-map-source"><a href="${escapeHtml(pageUrl)}" target="_blank" rel="noopener noreferrer">Trail details on Sport Ireland ↗</a></p>` : "";
+      links.innerHTML = '<p class="trail-map-status">Loading official maps…</p>';
+      try {
+        const index = await loadTrailMapLinks();
+        if (activeRoute !== route) return;
+        const entry = index.trails[firstValue(properties, ["TrailID"])];
+        const maps = (entry?.maps || []).map(trailMapLink).filter(Boolean);
+        if (!maps.length) {
+          const message = entry?.status === "no_pdf"
+            ? "No downloadable map was found among Sport Ireland’s map attachments. Check the official trail page for updates."
+            : "Check this trail’s Sport Ireland page for its map. A direct map download is not available yet.";
+          links.innerHTML = `${pageUrl ? `<a class="trail-map-download" href="${escapeHtml(pageUrl)}" target="_blank" rel="noopener noreferrer">Find map on Sport Ireland ↗</a>` : ""}<p class="trail-map-status">${message}</p>${source()}`;
+          return;
+        }
+        const first = maps[0];
+        const extra = maps.slice(1);
+        const publisherUrl = first.mapSourcePage ? trailMapLink({ url: first.mapSourcePage, format: "web" })?.url : "";
+        const publisherLink = publisherUrl ? `<p class="trail-map-source"><a href="${escapeHtml(publisherUrl)}" target="_blank" rel="noopener noreferrer">Map publisher &amp; updates ↗</a></p>` : "";
+        const resource = first.resourceType === "guide" ? "guide" : "map";
+        const label = first.format === "web" ? "View official map ↗" : `Download ${resource} (${first.format.toUpperCase()})`;
+        const note = first.format === "web" ? "Opens the official map website in a new tab." : `Opens the publisher’s ${resource} in a new tab. Save a copy from the opened file.`;
+        const publisherNotice = first.publisherNotice ? `<p class="trail-map-status">${escapeHtml(first.publisherNotice)}</p>` : "";
+        links.innerHTML = `<a class="trail-map-download" href="${escapeHtml(first.url)}" target="_blank" rel="noopener noreferrer" ${first.mime ? `type="${first.mime}"` : ""} aria-label="${escapeHtml(`${label}: ${first.title}`)}"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 2.8v9.1m0 0 3.4-3.4M10 11.9 6.6 8.5M3.8 13.3v2.1c0 .8.6 1.4 1.4 1.4h9.6c.8 0 1.4-.6 1.4-1.4v-2.1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>${label}</a><p class="trail-map-caption">${escapeHtml(first.title)}</p>${publisherNotice}${extra.length ? `<details class="trail-map-more"><summary>${extra.length} more ${extra.length === 1 ? "map or guide" : "maps &amp; guides"}</summary><ul class="trail-map-list">${extra.map((item) => `<li><a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer" ${item.mime ? `type="${item.mime}"` : ""}>${escapeHtml(item.title)} · ${item.format === "web" ? "Map website" : item.resourceType === "guide" ? "Guide" : item.format.toUpperCase()} ↗</a></li>`).join("")}</ul></details>` : ""}<p class="trail-map-caption">${note}</p>${publisherLink}${source()}`;
+      } catch {
+        if (activeRoute !== route) return;
+        links.innerHTML = `<p class="trail-map-status">Map links could not load. Check Sport Ireland for the map.</p>${source()}`;
+      }
+    }
 
     function setStatus(text, state = "loading") {
       statusText.textContent = text;
@@ -3408,6 +3500,7 @@
     function updateDetail(route) {
       const routeActions = $(".detail-actions");
       setDetailPanelOpen(Boolean(route));
+      renderTrailMaps(route);
       detailPanel.querySelectorAll(".detail-section").forEach((section) => { section.open = false; });
       if (trailPhotosRequest) trailPhotosRequest.abort();
       trailPhotosRequest = null;

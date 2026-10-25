@@ -10,6 +10,7 @@ An interactive map for people choosing and planning walks in Ireland. Explore Sp
 - Search by trail name or county, and filter by activity and registered difficulty grade.
 - Sort by name, distance or ascent.
 - View route distance, ascent and grade, with trailhead, nearest town, Irish grid reference, dog access, estimated walking time and waymarking details where the register supplies them.
+- Open a trail map from Sport Ireland or its linked publisher. The **Maps & guides** section shows the file type and links to publisher updates; trails without a direct file keep a link to their Sport Ireland page.
 - Use collapsible browsing and information panels, with layouts for desktop and mobile screens.
 
 ## Explore a route
@@ -33,6 +34,20 @@ Layers can be switched on and off from the map’s layer menu. Trail grade and a
 Open a GPX file from your device to inspect your own route. The interface also provides GPX export for the selected route. Imported files are read in the browser; the site states that they are not uploaded or saved.
 
 Terrain-derived elevations are estimates. GPX export avoids presenting these estimates as recorded elevations.
+
+### Trail maps and downloads
+
+`dist/data/trail-map-links.json` stores map links by `TrailID`, with each trail’s Sport Ireland page and checked status. It includes direct Sport Ireland attachments plus verified maps, images and selected guides from trail managers and regional publishers. A trail can have several route maps. Links open the publisher’s original file or map page in a new tab; visitors can save a copy from the opened file. Maps retain their publisher’s copyright and terms. Imported GPX routes do not receive registered trail map links.
+
+The index distinguishes a page with no listed map from a page that could not be reached and a trail that still needs checking. `complete` means every trail page has either been checked or marked inaccessible; it does not mean every trail has a published downloadable file.
+
+Current snapshot: all 1,194 trail pages have a recorded status. There are map or guide links for 1,111 trails; 80 pages list no map attachment, and 3 pages could not be reached during the refresh.
+
+To refresh the index, run `python scripts/extend-trail-map-links.py --max-pages 60 --interval 15`. It checks only unprocessed trails, makes one request at a time, waits 15 seconds after each response, and saves each result immediately. It stops on a browser verification request or rate limit, and preserves existing maps.
+
+`scripts/collect-trail-map-candidates.py` and `scripts/collect-trail-map-register-candidates.py` prepare offline candidate lists from checked pages and the official register. `scripts/verify-trail-map-candidates.py` checks one URL at a time and accepts files only when their signatures match the returned file type. It stops checking a host when a verification challenge or rate limit appears. `scripts/sync-trail-map-recoveries.py` saves publisher files, images and map websites in `docs/trail-map-link-recoveries.json` so a later rebuild can retain them. Per-link checks are recorded in `docs/trail-map-download-checks.json`.
+
+For a full source refresh, `scripts/build-trail-map-links.py` can use its cached-only mode or `--allow-unavailable` to record inaccessible pages. Use `--recoveries docs/trail-map-link-recoveries.json` to preserve verified publisher maps when rebuilding.
 
 ### Mobile signal estimates
 

@@ -1,0 +1,1184 @@
+{
+  "checks": {
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Tipperary-Marlfield_290615_final.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T14:42:25.488971+00:00",
+      "sourcePage": "https://www.coillte.ie/site/marlfield-north/",
+      "evidence": "Verified by source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Cavan-Dun_A_Ri-Forest-Park.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T14:42:25.488986+00:00",
+      "sourcePage": "https://www.coillte.ie/site/dun-a-ri-forest-park/",
+      "evidence": "Verified by source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Donegal-Ards-FP.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T14:42:25.488994+00:00",
+      "sourcePage": "https://www.coillte.ie/site/ards-forest-park/",
+      "evidence": "Verified by source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2019/10/CK_Gougane_Barra_2019_Map.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T14:45:56.973261+00:00",
+      "sourcePage": "https://www.coillte.ie/site/gougane-barra-forest-park/",
+      "evidence": "Verified by source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2021/01/curraghchase_Final_141220_Map.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T14:46:12.568676+00:00",
+      "sourcePage": "https://www.coillte.ie/site/curragh-chase-forest-park/",
+      "evidence": "Verified by source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Tipperary-Gortavoher.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T14:46:32.452519+00:00",
+      "sourcePage": "https://www.coillte.ie/site/gortavoher/",
+      "evidence": "Verified by source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Cavan-Killykeen_Forest-Park.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T14:46:51.864727+00:00",
+      "sourcePage": "https://www.coillte.ie/site/killykeen-forest-park/",
+      "evidence": "Verified by source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Ballinastoe-Trailheads-Aug-23.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T14:47:12.208309+00:00",
+      "sourcePage": "https://www.coillte.ie/site/ballinastoe/",
+      "evidence": "Verified by source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Clare-Ballycuggaran.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T14:47:34.766293+00:00",
+      "sourcePage": "https://www.coillte.ie/site/ballycuggaran/",
+      "evidence": "Verified by source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Clare-Cahermurphy.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T14:48:04.611797+00:00",
+      "sourcePage": "https://www.coillte.ie/site/cahermurphy/",
+      "evidence": "Verified by source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Cork-Moanbawn.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T14:48:46.340693+00:00",
+      "sourcePage": "https://www.coillte.ie/site/moanbaun-wood/",
+      "evidence": "Verified by source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Donegal-Ballykeeran.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T14:49:05.607674+00:00",
+      "sourcePage": "https://www.coillte.ie/site/ballykeeran/",
+      "evidence": "Verified by source audit"
+    },
+    "https://www.glengarriffnaturereserve.ie/wp-content/uploads/2018/01/Glengarrif-leaflet.low-res.9.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T14:48:27.837155+00:00",
+      "sourcePage": "https://www.glengarriffnaturereserve.ie/visit-us/",
+      "evidence": "Current NPWS reserve visit page links this leaflet; fetched as application/pdf, two pages. The leaflet names Esknamucky, Waterfall Walk, River Walk, Big Meadow Walk and Lady Bantry’s Lookout."
+    },
+    "https://www.nationalparks.ie/app/uploads/2022/09/Diamond-Hill-Trails-Map.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T14:48:27.837155+00:00",
+      "sourcePage": "https://www.nationalparks.ie/connemara/things-to-do/",
+      "evidence": "Current National Parks page links this PDF. Fetched as application/pdf, one page; map labels include Lower Diamond Hill Walk and Upper Diamond Hill Walk."
+    },
+    "https://www.nationalparks.ie/app/uploads/2022/09/Glendalough-walking-trails-A3-front-and-back.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T14:48:27.837155+00:00",
+      "sourcePage": "https://www.nationalparks.ie/wicklow/things-to-do/",
+      "evidence": "Current National Parks page links this PDF; fetched as application/pdf, two pages. The seven registered trail names occur in the leaflet."
+    },
+    "https://www.npws.ie/sites/default/files/general/Slieve%20Bloom%20leaflet_Page%201.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T14:47:51.883659+00:00",
+      "sourcePage": "https://www.npws.ie/nature-reserves/slieve-bloom-mountains/visit-us",
+      "evidence": "Current NPWS visit page links this map. Direct response prefix verified %PDF- and application/pdf. Sport Ireland register explicitly assigns this same map URL to all three Ridge of Capard trails."
+    },
+    "https://arranmoreblueway.com/wp-content/uploads/2023/04/Blueway-Brochure-without-water-mark-1.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T14:47:21.891571+00:00",
+      "sourcePage": "https://arranmoreblueway.com/wp-content/uploads/2023/04/Blueway-Brochure-without-water-mark-1.pdf",
+      "evidence": "Official Sport Ireland register directly links this map; HTTP response verified PDF signature and Content-Type application/pdf"
+    },
+    "https://arranmoreblueway.com/wp-content/uploads/2023/05/1.-Sli-Arainn-Mhor-English.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T14:47:32.002939+00:00",
+      "sourcePage": "https://arranmoreblueway.com/wp-content/uploads/2023/05/1.-Sli-Arainn-Mhor-English.pdf",
+      "evidence": "Official Sport Ireland register directly links this map; HTTP response verified PDF signature and Content-Type application/pdf"
+    },
+    "https://arranmoreblueway.com/wp-content/uploads/2023/05/2.-The-Old-Railway-Walk-Ailt-an-Chorrain.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T14:47:42.094959+00:00",
+      "sourcePage": "https://arranmoreblueway.com/wp-content/uploads/2023/05/2.-The-Old-Railway-Walk-Ailt-an-Chorrain.pdf",
+      "evidence": "Official Sport Ireland register directly links this map; HTTP response verified PDF signature and Content-Type application/pdf"
+    },
+    "https://arranmoreblueway.com/wp-content/uploads/2023/05/4.-Kinballycrowie-Loop.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T14:47:51.930820+00:00",
+      "sourcePage": "https://arranmoreblueway.com/wp-content/uploads/2023/05/4.-Kinballycrowie-Loop.pdf",
+      "evidence": "Official Sport Ireland register directly links this map; HTTP response verified PDF signature and Content-Type application/pdf"
+    },
+    "https://arranmoreblueway.com/wp-content/uploads/2023/05/3-Crickamore-Loop-Arainn-Mhor.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T14:48:01.619395+00:00",
+      "sourcePage": "https://arranmoreblueway.com/wp-content/uploads/2023/05/3-Crickamore-Loop-Arainn-Mhor.pdf",
+      "evidence": "Official Sport Ireland register directly links this map; HTTP response verified PDF signature and Content-Type application/pdf"
+    },
+    "http://dev.trailkilkenny.ie/wp-content/uploads/2018/11/TRAIL_KK_CYCLE_EAST_KK_ROUTE.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "contentType": "application/pdf",
+      "resolvedUrl": "http://dev.trailkilkenny.ie/wp-content/uploads/2018/11/TRAIL_KK_CYCLE_EAST_KK_ROUTE.pdf",
+      "verifiedAt": "2026-10-23T15:08:26.055702+00:00"
+    },
+    "http://dev.trailkilkenny.ie/wp-content/uploads/2018/11/TRAIL_KK_CYCLE_NORTH_KK_LOOP.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "contentType": "application/pdf",
+      "resolvedUrl": "http://dev.trailkilkenny.ie/wp-content/uploads/2018/11/TRAIL_KK_CYCLE_NORTH_KK_LOOP.pdf",
+      "verifiedAt": "2026-10-23T15:08:36.106028+00:00"
+    },
+    "http://dev.trailkilkenny.ie/wp-content/uploads/2018/11/TRAIL_KK_CYCLE_NORTH_KK_ROUTE.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "contentType": "application/pdf",
+      "resolvedUrl": "http://dev.trailkilkenny.ie/wp-content/uploads/2018/11/TRAIL_KK_CYCLE_NORTH_KK_ROUTE.pdf",
+      "verifiedAt": "2026-10-23T15:08:45.304134+00:00"
+    },
+    "http://dev.trailkilkenny.ie/wp-content/uploads/2018/11/TRAIL_KK_CYCLE_SOUTH_KK_LOOP.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "contentType": "application/pdf",
+      "resolvedUrl": "http://dev.trailkilkenny.ie/wp-content/uploads/2018/11/TRAIL_KK_CYCLE_SOUTH_KK_LOOP.pdf",
+      "verifiedAt": "2026-10-23T15:08:55.282467+00:00"
+    },
+    "http://visitwicklow.ie/wp-content/uploads/2015/02/Blessington_Greenway.pdf": {
+      "status": "unavailable",
+      "httpStatus": 404,
+      "verifiedAt": "2026-10-23T15:09:06.405146+00:00"
+    },
+    "http://www.loughboora.com/wp-content/uploads/2014/07/Finnamore_lakes.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "contentType": "application/pdf",
+      "resolvedUrl": "https://www.loughboora.com/wp-content/uploads/2014/07/Finnamore_lakes.pdf",
+      "verifiedAt": "2026-10-23T15:09:20.746900+00:00"
+    },
+    "http://www.loughboora.com/wp-content/uploads/2014/07/Sculpture_map-V21.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "contentType": "application/pdf",
+      "resolvedUrl": "https://www.loughboora.com/wp-content/uploads/2014/07/Sculpture_map-V21.pdf",
+      "verifiedAt": "2026-10-23T15:09:38.121001+00:00"
+    },
+    "http://www.loughboora.com/wp-content/uploads/2014/07/Turraun_walk.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "contentType": "application/pdf",
+      "resolvedUrl": "https://www.loughboora.com/wp-content/uploads/2014/07/Turraun_walk.pdf",
+      "verifiedAt": "2026-10-23T15:09:56.463134+00:00"
+    },
+    "http://www.loughboora.com/wp-content/uploads/2014/07/mesolithic_cycle_map.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "contentType": "application/pdf",
+      "resolvedUrl": "https://www.loughboora.com/wp-content/uploads/2014/07/mesolithic_cycle_map.pdf",
+      "verifiedAt": "2026-10-23T15:10:11.027439+00:00"
+    },
+    "http://www.mayowalks.ie/media/Media,10490,en.pdf": {
+      "status": "unavailable",
+      "httpStatus": 404,
+      "verifiedAt": "2026-10-23T15:10:20.549791+00:00"
+    },
+    "http://www.mayowalks.ie/media/Media,12117,en.pdf": {
+      "status": "unavailable",
+      "httpStatus": 404,
+      "verifiedAt": "2026-10-23T15:10:30.540718+00:00"
+    },
+    "http://www.mayowalks.ie/media/Media,13530,en.pdf": {
+      "status": "unavailable",
+      "httpStatus": 404,
+      "verifiedAt": "2026-10-23T15:10:40.727382+00:00"
+    },
+    "http://www.mayowalks.ie/media/Media,14143,en.pdf": {
+      "status": "unavailable",
+      "httpStatus": 404,
+      "verifiedAt": "2026-10-23T15:10:49.946018+00:00"
+    },
+    "http://www.waterfordcouncil.ie/images/GIS/Greenways/WaterfordGreenway2017Map.pdf": {
+      "status": "unavailable",
+      "httpStatus": 404,
+      "verifiedAt": "2026-10-23T15:11:11.367688+00:00"
+    },
+    "https://belmontdemesne.ie/wp-content/uploads/2020/08/Belmont-trail-map.pdf": {
+      "status": "unavailable",
+      "httpStatus": 404,
+      "verifiedAt": "2026-10-23T15:11:27.135919+00:00"
+    },
+    "https://belmontdemesne.ie/wp-content/uploads/2023/07/Belmont_Signage-Map_July-2023_1200x700mm_AW_small-scaled.jpg": {
+      "status": "available",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "resolvedUrl": "https://belmontdemesne.ie/wp-content/uploads/2023/07/Belmont_Signage-Map_July-2023_1200x700mm_AW_small-scaled.jpg",
+      "verifiedAt": "2026-10-23T15:11:36.178894+00:00"
+    },
+    "https://loughkey.ie/wp-content/uploads/2015/06/Map-of-Walking-Trails2.pdf": {
+      "status": "unavailable",
+      "httpStatus": 404,
+      "verifiedAt": "2026-10-23T15:11:47.510966+00:00"
+    },
+    "https://www.bluewaysireland.org/Lists/Trail%20Sets/Attachments/16/Ballinamore%20Walking%20Trail%20Guide.pdf": {
+      "status": "unavailable",
+      "httpStatus": 503,
+      "verifiedAt": "2026-10-23T15:11:57.020579+00:00"
+    },
+    "https://www.bluewaysireland.org/Lists/Trail%20Sets/Attachments/24/Ballinamore%20Looped%20Cycling%20Trail%20Guide.pdf": {
+      "status": "unavailable",
+      "httpStatus": 503,
+      "verifiedAt": "2026-10-23T15:12:07.125364+00:00"
+    },
+    "https://www.louthcoco.ie/en/services/sustainable-energy-cross-border-european-relations/carlingford-lough-greenway1/greenway-leaflet.pdf": {
+      "status": "unavailable",
+      "httpStatus": 404,
+      "verifiedAt": "2026-10-23T15:12:18.202024+00:00"
+    },
+    "https://www.greenway.ie/achill-cycle-loops/achill-cycle-loop-3/": {
+      "status": "available",
+      "format": "web",
+      "contentType": "text/html",
+      "resolvedUrl": "https://www.greenway.ie/achill-cycle-loops/achill-cycle-loop-3/",
+      "verifiedAt": "2026-10-23T15:21:26.128653+00:00"
+    },
+    "https://www.sportireland.ie/sites/default/files/media/document/2023-11/South-East-Greenway-Map-Phase%201.jpg": {
+      "status": "available",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "resolvedUrl": "https://www.sportireland.ie/sites/default/files/media/document/2023-11/South-East-Greenway-Map-Phase%201.jpg",
+      "verifiedAt": "2026-10-23T15:21:36.491582+00:00"
+    },
+    "https://www.sportireland.ie/sites/default/files/media/document/2025-04/CPHT%20walking%20map%202025.jpg": {
+      "status": "available",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "resolvedUrl": "https://www.sportireland.ie/sites/default/files/media/document/2025-04/CPHT%20walking%20map%202025.jpg",
+      "verifiedAt": "2026-10-23T15:21:46.138665+00:00"
+    },
+    "https://www.sportireland.ie/sites/default/files/media/document/2026-08/21038c66-6646-4ecf-bdaf-7082eaa64fe7.png": {
+      "status": "available",
+      "format": "png",
+      "contentType": "image/png",
+      "resolvedUrl": "https://www.sportireland.ie/sites/default/files/media/document/2026-08/21038c66-6646-4ecf-bdaf-7082eaa64fe7.png",
+      "verifiedAt": "2026-10-23T15:21:55.815412+00:00"
+    },
+    "https://www.sportireland.ie/sites/default/files/media/document/2026-08/Glen%20to%20Mon%20reroute%20option%2025.8.2026.png": {
+      "status": "available",
+      "format": "png",
+      "contentType": "image/png",
+      "resolvedUrl": "https://www.sportireland.ie/sites/default/files/media/document/2026-08/Glen%20to%20Mon%20reroute%20option%2025.8.2026.png",
+      "verifiedAt": "2026-10-23T15:22:05.722196+00:00"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Donegal-Drumboe.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:06:27.226388+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/drumboe/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Donegal-Woodquarter.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:06:48.378312+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/woodquarter/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Dublin-Barnaslingan.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:07:09.175568+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/barnaslingan-wood/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Dublin-Carrickgolligan.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:07:29.939255+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/carrickgollogan/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Dublin-Cruagh-Wood.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:07:50.683038+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/cruagh-wood/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Galway-Ard-Na-Gaoithe.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:08:34.776312+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/ard-na-gaoithe/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Galway-Clonbur-Wood.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:08:56.507728+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/clonbur-wood/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Galway-Cong.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:09:17.468044+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/cong-forest/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Galway-Monivea.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:09:50.363341+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/monivea/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Galway-New-Village.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:10:10.593260+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/newvillage/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Kerry-Rossacroo-Wood.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:10:40.707840+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/rossacroo-wood/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Kilkenny-Coill_an_Fhaltaigh.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:11:11.987655+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/coille-an-fhaltaigh/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Laois-Brittas.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:11:37.644671+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/brittas/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Laois-Monicknew.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:11:57.668090+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/monicknew/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Leitrim-Glenfarne-Wood.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:12:19.103991+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/glenfarne-wood/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Mayo-Moore-Hall.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:12:51.216012+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/moore-hall/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Offaly-Glenafelly-Forest-Recreation-Area.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:13:22.839840+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/glenafelly/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Offaly-Glenregan-Forest-Recreation-Area.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:13:43.772043+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/glenregan/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Offaly-Knockbarron-Wood.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:14:07.212668+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/knockbarron-wood/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Roscommon-Mote-Park.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:14:28.345221+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/mote-park/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Sligo-Deerpark-Forest.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:14:46.101432+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/deerpark/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Sigo-Dooney-Rock.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:15:07.129047+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/dooney-rock/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Sligo-Hazel-Wood.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:15:29.686115+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/hazelwood/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Sligo-Slishwood.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:15:50.096809+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/slish-wood/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Tipperary-Glengarra_2016_160616.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:16:10.328866+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/glengarra/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Wicklow-Ballygannon.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:17:03.792442+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/ballygannon-wood/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Wicklow-Crone_Ballyreagh.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:17:24.624564+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/crone-woods/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Wicklow-Djouce_Wood.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:17:46.952061+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/djouce-woods/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Wicklow-Glenart_walk-2.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:18:08.939302+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/glenart-wood/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Wicklow-Kindlestown_multi_access_trail.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:18:30.388899+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/kindlestown/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Wicklow-Shay-Elliot-Ballinafunshoge_forest_01.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:18:51.357395+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/shay-elliot/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2019/10/CK_Farran_2019.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:19:34.568464+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/farran-forest-park/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Sligo-Union-Wood.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:19:57.504389+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/union-wood/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Sligo-Gortarowey.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:20:35.255893+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/gortarowey/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Clare-Kilrush.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:20:58.071128+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/kilrush/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Mayo-Belleek.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:21:19.518185+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/belleek/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Roscommon-Derryvunny.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:21:39.783777+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/derryvunny/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Meath-Littlewood.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:22:00.943721+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/littlewood/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Tipperary-Marlbog_260615_final.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:23:05.263821+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/marl-bog/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Donegal-Drumharrif.Pettigo_051213.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:23:36.880077+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/drumharriff/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Cavan-Cavan_Burren_Park.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:23:57.567821+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/cavan-burren-park/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Mayo-Raheens-Wood.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:24:19.039650+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/raheens-wood/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Kildare-Mullaghreelan.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:24:39.708575+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/mullaghreelan-wood/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Offaly-Garryhinch.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:25:01.218111+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/garryhinch/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Wicklow-RoddenaghWoodMap.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:25:24.379929+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/roddenagh-wood/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Longford-Derrycassan-Wood.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:25:47.515588+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/derrycassan/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/03/LS_Oughaval_Map.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:26:19.295715+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/oughaval/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Galway-Aghrane.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:26:41.020248+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/aghrane/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Dublin-Slievethoul.Lugg_.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:27:02.231747+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.coillte.ie/site/slievethoul-and-lugg/",
+      "evidence": "Signature and content type verified from source audit"
+    },
+    "https://www.loughboora.com/wp-content/uploads/2026/04/Lough-Boora-Finnamores.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:14:51Z",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.loughboora.com/plan-your-visit/",
+      "evidence": "The current Lough Boora page links this as the Finnamore Lakes route; PDF text names the Finnamore walking route."
+    },
+    "https://www.loughboora.com/wp-content/uploads/2026/04/Lough-Boora-Turraun.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:15:01Z",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.loughboora.com/plan-your-visit/",
+      "evidence": "Current route PDF names Turraun walking and cycle routes and states the 15 km Turraun cycle route."
+    },
+    "https://www.loughboora.com/wp-content/uploads/2026/04/Lough-Boora-Mesolithic.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:14:41Z",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.loughboora.com/plan-your-visit/",
+      "evidence": "Current route PDF says the Mesolithic route is for both walking and cycling; titles match both registered routes."
+    },
+    "https://www.loughboora.com/wp-content/uploads/2026/04/Lough-Boora-Sculpture.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T14:48:51Z",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.loughboora.com/plan-your-visit/",
+      "evidence": "Current route PDF names the Sculpture Park walking route and its cycle access."
+    },
+    "https://loughkey.ie/wp-content/uploads/2022/03/Map-of-Walking-Trails2.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T14:48:36Z",
+      "contentType": "application/pdf",
+      "sourcePage": "https://loughkey.ie/trails-tours/walking-and-cycling-trails/",
+      "evidence": "Lough Key’s current walking and cycling trails page links this PDF as its Walking Path Map."
+    },
+    "https://blessingtontidytowns.ie/wp-content/uploads/2022/04/Blessington_Greenway.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:15:24Z",
+      "contentType": "application/pdf",
+      "sourcePage": "https://blessingtontidytowns.ie/walks-trails/",
+      "evidence": "Current Blessington walks page links this PDF as the Blessington Greenway map; the map title matches both registered Greenway trails."
+    },
+    "https://www.visitlouth.ie/_files/ugd/617b27_e8357f27d4614297a327911c141388a2.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-23T15:19:01Z",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.visitlouth.ie/maps-and-guides",
+      "evidence": "Visit Louth’s current Maps & Guides page labels this PDF “Carlingford Lough Greenway Map”; route name matches both walking and cycling register entries."
+    },
+    "https://belmontdemesne.ie/wp-content/uploads/2025/12/Belmont_Signage-Map_NOV-2025.jpg": {
+      "status": "available",
+      "format": "jpg",
+      "verifiedAt": "2026-10-23T14:48:43Z",
+      "contentType": "image/jpeg",
+      "sourcePage": "https://belmontdemesne.ie/bike-farm/",
+      "evidence": "Belmont’s current Bike Farm page calls this a printable trail map. Its legend names Belmont Way Walking Trail, Bike & Hike Loops, Pump Track, Ground Control, Sweetwood Track and Live Wire."
+    },
+    "https://www.scribblemaps.com/maps/view/Mayo-Cycle-Routes/CycleHubs": {
+      "status": "available",
+      "format": "web",
+      "verifiedAt": "2026-10-23T15:22:51Z",
+      "contentType": "text/html",
+      "sourcePage": "https://www.mayo.ie/activities/cycling/cycle-hubs",
+      "evidence": "Mayo County Council’s Cycle Hubs page links this published map; its title and description identify the Mayo cycle routes. The map is a website, not a PDF."
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Portumna_Forest_Park_2026.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "contentType": "application/pdf",
+      "resolvedUrl": "https://www.coillte.ie/wp-content/uploads/2017/01/Portumna_Forest_Park_2026.pdf",
+      "verifiedAt": "2026-10-23T15:30:28.183472+00:00"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2024/06/bahana_trail_150218.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "contentType": "application/pdf",
+      "resolvedUrl": "https://www.coillte.ie/wp-content/uploads/2024/06/bahana_trail_150218.pdf",
+      "verifiedAt": "2026-10-23T15:30:38.459650+00:00"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2020/10/CK_Corrin_Map.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "contentType": "application/pdf",
+      "resolvedUrl": "https://www.coillte.ie/wp-content/uploads/2020/10/CK_Corrin_Map.pdf",
+      "verifiedAt": "2026-10-23T15:30:50.112660+00:00"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Bonney_Glen-Map.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "contentType": "application/pdf",
+      "resolvedUrl": "https://www.coillte.ie/wp-content/uploads/2017/01/Bonney_Glen-Map.pdf",
+      "verifiedAt": "2026-10-23T15:31:00.701203+00:00"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2020/10/2020-Hell-Fire-_Massyes-Estate-Map.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "contentType": "application/pdf",
+      "resolvedUrl": "https://www.coillte.ie/wp-content/uploads/2020/10/2020-Hell-Fire-_Massyes-Estate-Map.pdf",
+      "verifiedAt": "2026-10-23T15:31:10.767363+00:00"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Dublin-Tibradden-Wood.Pine-Forest.pdf": {
+      "status": "request_failed",
+      "error": "<urlopen error Tunnel connection failed: 403 Forbidden>",
+      "verifiedAt": "2026-10-23T15:31:15.769914+00:00"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2020/01/derrourabike_2019_120619.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "contentType": "application/pdf",
+      "resolvedUrl": "https://www.coillte.ie/wp-content/uploads/2020/01/derrourabike_2019_120619.pdf",
+      "verifiedAt": "2026-10-23T15:31:28.563497+00:00"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2019/10/KY_Glanteenassig_2019.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "contentType": "application/pdf",
+      "resolvedUrl": "https://www.coillte.ie/wp-content/uploads/2019/10/KY_Glanteenassig_2019.pdf",
+      "verifiedAt": "2026-10-23T15:31:41.151847+00:00"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2020/09/donadea_2018_030920.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "contentType": "application/pdf",
+      "resolvedUrl": "https://www.coillte.ie/wp-content/uploads/2020/09/donadea_2018_030920.pdf",
+      "verifiedAt": "2026-10-23T15:31:51.268966+00:00"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2019/08/WD_Glenshelane_2019_Map-1.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "contentType": "application/pdf",
+      "resolvedUrl": "https://www.coillte.ie/wp-content/uploads/2019/08/WD_Glenshelane_2019_Map-1.pdf",
+      "verifiedAt": "2026-10-23T15:32:01.447341+00:00"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2021/06/mullaghmeen_2020-final-trail-map.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "contentType": "application/pdf",
+      "resolvedUrl": "https://www.coillte.ie/wp-content/uploads/2021/06/mullaghmeen_2020-final-trail-map.pdf",
+      "verifiedAt": "2026-10-23T15:32:11.439664+00:00"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/New-trails-map.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "contentType": "application/pdf",
+      "resolvedUrl": "https://www.coillte.ie/wp-content/uploads/2017/01/New-trails-map.pdf",
+      "verifiedAt": "2026-10-23T15:32:21.607369+00:00"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/devils_glen_2020_051222.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "contentType": "application/pdf",
+      "resolvedUrl": "https://www.coillte.ie/wp-content/uploads/2017/01/devils_glen_2020_051222.pdf",
+      "verifiedAt": "2026-10-23T15:32:31.575244+00:00"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/castlefreke_2021_030821.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "contentType": "application/pdf",
+      "resolvedUrl": "https://www.coillte.ie/wp-content/uploads/2017/01/castlefreke_2021_030821.pdf",
+      "verifiedAt": "2026-10-23T15:32:41.599531+00:00"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/kilbrannish_north_johns_hill_290420.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "contentType": "application/pdf",
+      "resolvedUrl": "https://www.coillte.ie/wp-content/uploads/2017/01/kilbrannish_north_johns_hill_290420.pdf",
+      "verifiedAt": "2026-10-23T15:32:51.825743+00:00"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2020/08/CK_Castlemartyr_2020_Map.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "contentType": "application/pdf",
+      "resolvedUrl": "https://www.coillte.ie/wp-content/uploads/2020/08/CK_Castlemartyr_2020_Map.pdf",
+      "verifiedAt": "2026-10-23T15:33:01.950911+00:00"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2017/01/Carrigfadda_2025_091025_2.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "contentType": "application/pdf",
+      "resolvedUrl": "https://www.coillte.ie/wp-content/uploads/2017/01/Carrigfadda_2025_091025_2.pdf",
+      "verifiedAt": "2026-10-23T15:33:12.203499+00:00"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2016/12/Garrettstown_2023_MAP.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "contentType": "application/pdf",
+      "resolvedUrl": "https://www.coillte.ie/wp-content/uploads/2016/12/Garrettstown_2023_MAP.pdf",
+      "verifiedAt": "2026-10-23T15:33:22.323137+00:00"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2020/04/CK_Castleblagh_2020_Map.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "contentType": "application/pdf",
+      "resolvedUrl": "https://www.coillte.ie/wp-content/uploads/2020/04/CK_Castleblagh_2020_Map.pdf",
+      "verifiedAt": "2026-10-23T15:33:32.700896+00:00"
+    },
+    "https://www.coillte.ie/wp-content/uploads/2020/01/TY_Knockanacree_2019.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "contentType": "application/pdf",
+      "resolvedUrl": "https://www.coillte.ie/wp-content/uploads/2020/01/TY_Knockanacree_2019.pdf",
+      "verifiedAt": "2026-10-23T15:33:43.083223+00:00"
+    },
+    "https://www.mayo.ie/getmedia/d76fe8e3-fb74-46df-99d5-3bc3b802eb82/Castlebar-National-Museum-Greenway-Network.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "contentType": "application/pdf",
+      "resolvedUrl": "https://www.mayo.ie/getmedia/d76fe8e3-fb74-46df-99d5-3bc3b802eb82/Castlebar-National-Museum-Greenway-Network.pdf",
+      "verifiedAt": "2026-10-23T16:15:10.210812+00:00"
+    },
+    "http://www.coillte.ie/media/2017/01/Dublin-Cruagh-Wood.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "contentType": "application/pdf",
+      "resolvedUrl": "https://coillte.ie/media/2017/01/Dublin-Cruagh-Wood.pdf",
+      "verifiedAt": "2026-10-23T16:16:13.904065+00:00"
+    },
+    "https://www.bluewaysireland.org/Lists/Blueways/Attachments/4/Paddling%20Guide%20revised.pdf": {
+      "status": "unavailable",
+      "httpStatus": 503,
+      "verifiedAt": "2026-10-23T16:16:28.081709+00:00"
+    },
+    "https://www.coillte.ie/media/2017/01/Mayo-Tourmakeady.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "contentType": "application/pdf",
+      "resolvedUrl": "https://www.coillte.ie/media/2017/01/Mayo-Tourmakeady.pdf",
+      "verifiedAt": "2026-10-23T16:16:38.359128+00:00"
+    },
+    "https://www.coillte.ie/media/2017/01/kilmashogue_tiknock_all_routes.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "contentType": "application/pdf",
+      "resolvedUrl": "https://www.coillte.ie/media/2017/01/kilmashogue_tiknock_all_routes.pdf",
+      "verifiedAt": "2026-10-23T16:16:49.375158+00:00"
+    },
+    "https://www.coillte.ie/media/2018/07/LK_Ballyhoura_Greenwood_2018_Walking_Map.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "contentType": "application/pdf",
+      "resolvedUrl": "https://www.coillte.ie/media/2018/07/LK_Ballyhoura_Greenwood_2018_Walking_Map.pdf",
+      "verifiedAt": "2026-10-23T16:17:00.007242+00:00"
+    },
+    "https://www.coillte.ie/media/2018/07/LK_Ballyhoura_MTB_Map2018.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "contentType": "application/pdf",
+      "resolvedUrl": "https://www.coillte.ie/media/2018/07/LK_Ballyhoura_MTB_Map2018.pdf",
+      "verifiedAt": "2026-10-23T16:17:10.498938+00:00"
+    },
+    "https://www.coillte.ie/media/2017/01/ticknock_mtb_2018_300519.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "contentType": "application/pdf",
+      "resolvedUrl": "https://www.coillte.ie/media/2017/01/ticknock_mtb_2018_300519.pdf",
+      "verifiedAt": "2026-10-23T16:17:21.183253+00:00"
+    },
+    "https://www.ballinamore.ie/assets/images/maps/BALLINAMORE-AREA.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "contentType": "application/pdf",
+      "resolvedUrl": "https://www.ballinamore.ie/assets/images/maps/BALLINAMORE-AREA.pdf",
+      "verifiedAt": "2026-10-23T16:17:37.899489+00:00"
+    },
+    "https://visitwaterford.com/wp-content/uploads/2025/06/WCCC-Walks-Brochure-WEB.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "contentType": "application/pdf",
+      "resolvedUrl": "https://visitwaterford.com/wp-content/uploads/2025/06/WCCC-Walks-Brochure-WEB.pdf",
+      "verifiedAt": "2026-10-23T16:17:49.832852+00:00"
+    },
+    "https://discoverloughderg.ie/wp-content/uploads/2018/03/Lough-Derg-Blueway-NORTH.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "contentType": "application/pdf",
+      "resolvedUrl": "https://discoverloughderg.ie/wp-content/uploads/2018/03/Lough-Derg-Blueway-NORTH.pdf",
+      "verifiedAt": "2026-10-23T16:46:00.367325+00:00"
+    },
+    "https://discoverloughderg.ie/wp-content/uploads/2018/03/Lough-Derg-Blueway-EAST.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "contentType": "application/pdf",
+      "resolvedUrl": "https://discoverloughderg.ie/wp-content/uploads/2018/03/Lough-Derg-Blueway-EAST.pdf",
+      "verifiedAt": "2026-10-23T16:46:12.951465+00:00"
+    },
+    "https://discoverloughderg.ie/wp-content/uploads/2018/03/Lough-Derg-Blueway-SOUTH.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "contentType": "application/pdf",
+      "resolvedUrl": "https://discoverloughderg.ie/wp-content/uploads/2018/03/Lough-Derg-Blueway-SOUTH.pdf",
+      "verifiedAt": "2026-10-23T16:46:25.647118+00:00"
+    },
+    "https://discoverloughderg.ie/wp-content/uploads/2018/03/Lough-Derg-Blueway-WEST.pdf": {
+      "status": "unavailable",
+      "httpStatus": 404,
+      "verifiedAt": "2026-10-23T16:46:39.021657+00:00"
+    },
+    "https://discoverloughderg.ie/wp-content/uploads/2018/03/Lough-Derg-Blueway-West.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "contentType": "application/pdf",
+      "resolvedUrl": "https://discoverloughderg.ie/wp-content/uploads/2018/03/Lough-Derg-Blueway-West.pdf",
+      "verifiedAt": "2026-10-23T16:47:15.027818+00:00"
+    },
+    "https://www.sportireland.ie/sites/default/files/media/document/2022-05/Ballinastoe%20Walking%20Trails%20-%20Wave%20Map.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-24T21:22:06+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.sportireland.ie/outdoors/walking/trails/ballinastoe-walking-trails-wave",
+      "evidence": "Opened from the Sport Ireland trail page; the PDF content names the matching Ballinastoe map."
+    },
+    "https://www.sportireland.ie/sites/default/files/media/document/2022-05/Ballinastoe%20Walking%20Trails%20-%20Mountain%20Map.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-24T21:22:06+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.sportireland.ie/outdoors/walking/trails/ballinastoe-walking-trails-mountain",
+      "evidence": "Opened from the Sport Ireland trail page; the PDF content names the matching Ballinastoe map."
+    },
+    "https://www.sportireland.ie/sites/default/files/media/document/2022-05/Ballinastoe%20Walking%20Trails%20-%20Sun%20Map.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-24T21:22:06+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.sportireland.ie/outdoors/walking/trails/ballinastoe-walking-trails-sun",
+      "evidence": "Opened from the Sport Ireland trail page; the PDF content names the matching Ballinastoe map."
+    },
+    "https://www.sportireland.ie/sites/default/files/media/document/2023-10/The%20Monaghan%20Way%20Map.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-24T22:14:36+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": null,
+      "evidence": "Official Sport Ireland PDF; its legend identifies the Inniskeen Loop among the mapped routes."
+    },
+    "https://www.sportireland.ie/sites/default/files/media/document/2026-02/%281783%29%20Suir%20Blueway%20-%20Clonmel%20Suir%20Side%20to%20Carey%E2%80%99s%20Slip.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-24T22:14:36+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": null,
+      "evidence": "Official Sport Ireland route map PDF identifies this walking route."
+    },
+    "https://www.sportireland.ie/sites/default/files/media/document/2026-02/%281785%29%20Suir%20Blueway%20-%20Clonmel%20Carey%E2%80%99s%20Slip%20to%20Kilsheelan.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-24T22:14:36+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": null,
+      "evidence": "Official Sport Ireland route map PDF identifies this walking route."
+    },
+    "https://www.sportireland.ie/sites/default/files/media/document/2026-02/%281866%29%20SLNCR%20Greenway%20Glenfarne_0.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-24T22:14:36+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": null,
+      "evidence": "Official Sport Ireland PDF identifies the trailhead and trail route."
+    },
+    "https://www.sportireland.ie/sites/default/files/media/document/2026-02/%281870%29%20Tip%20O%27Neill%20Trail.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-24T22:14:36+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": null,
+      "evidence": "Official Sport Ireland PDF identifies the trailhead and trail route."
+    },
+    "https://www.sportireland.ie/sites/default/files/media/document/2026-02/%281871%29%20Fox%27s%20Rock%20Bullaba%20%28Bulben%29%20Loop.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-24T22:14:36+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": null,
+      "evidence": "Official Sport Ireland PDF identifies the trailhead and trail route."
+    },
+    "https://www.sportireland.ie/sites/default/files/media/document/2023-10/O%27Rourke%27s%20Table%20Trail%20Map.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-24T22:14:36+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": null,
+      "evidence": "Official Sport Ireland PDF is titled O’Rourke’s Table Trail Map."
+    },
+    "https://www.sportireland.ie/sites/default/files/media/document/2024-01/ballybunion-cliff-walk-map-jan24_0.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-24T22:14:36+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://www.sportireland.ie/outdoors/walking/trails/ballybunion-cliff-path-0",
+      "evidence": "Official Sport Ireland attachment from the Ballybunion Cliff Path page."
+    },
+    "https://douglastidytowns.ie/wp-content/uploads/ballybrack_woods_120814.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-24T22:14:36+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://douglastidytowns.ie/ballybrack-woods-trail/",
+      "evidence": "Douglas Tidy Towns offers this downloadable trail map; the PDF names the Ballybrack Woods trail."
+    },
+    "https://belmontdemesne.ie/wp-content/uploads/2022/02/Belmont_Signage-Map_FEB2021-002.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-24T22:14:36+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": "https://belmontdemesne.ie/faqs/",
+      "evidence": "Belmont Demesne publishes this printable map for its on-site walking and cycling trails."
+    },
+    "https://fuchsialanefarm.com/wp-content/uploads/2018/01/North-Tipperary-Walking-Trails-Guide.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-24T22:14:36+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": null,
+      "evidence": "The guide includes route information for the Lough Derg Way and a map/route description for Murroe Nature Loop."
+    },
+    "https://www.visitroscommon.ie/brochures/Roscommon-Walks-Booklet.pdf": {
+      "status": "available",
+      "format": "pdf",
+      "verifiedAt": "2026-10-24T22:14:36+00:00",
+      "contentType": "application/pdf",
+      "sourcePage": null,
+      "evidence": "Visit Roscommon booklet includes county walk maps and Shannonbridge loop route information."
+    },
+    "https://assets-eu-01.kc-usercontent.com/aa24ba70-9a12-01ae-259b-7ef588a0b2ef/a484dcb7-7961-4081-8958-226c0b58bde5/5bdbc28f-c83b-4cf2-9f9f-a34eacebe5df_88728.jpg?fit=crop&fm=jpg&h=750&q=66&w=1332": {
+      "status": "available",
+      "format": "jpg",
+      "verifiedAt": "2026-10-24T22:14:36+00:00",
+      "contentType": "image/jpeg",
+      "sourcePage": "https://www.discoverireland.ie/waterford/nire-valley-trails-coumduala-loop",
+      "evidence": "Discover Ireland labels this image “Coumduala Looped Walk Map” on the corresponding Nire Valley trail page."
+    },
+    "https://www.sportireland.ie/sites/default/files/media/document/2023-10/Donkey%20Sanctuary%20Map.jpg": {
+      "status": "available",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "resolvedUrl": "https://www.sportireland.ie/sites/default/files/media/document/2023-10/Donkey%20Sanctuary%20Map.jpg",
+      "verifiedAt": "2026-10-24T22:15:55.287619+00:00"
+    },
+    "https://www.sportireland.ie/sites/default/files/media/document/2025-11/Rossmore%20Mapboard%20Signage%20%5BGraphic%20for%20Main%20Arrival%20Area%5D.jpg": {
+      "status": "available",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "resolvedUrl": "https://www.sportireland.ie/sites/default/files/media/document/2025-11/Rossmore%20Mapboard%20Signage%20%5BGraphic%20for%20Main%20Arrival%20Area%5D.jpg",
+      "verifiedAt": "2026-10-24T22:16:14.997703+00:00"
+    },
+    "https://www.sportireland.ie/sites/default/files/media/document/2026-02/Black%20Island%20Trail%20Signage%20-%20Lough%20Muckno%2C%20Castleblayney.jpg": {
+      "status": "available",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "resolvedUrl": "https://www.sportireland.ie/sites/default/files/media/document/2026-02/Black%20Island%20Trail%20Signage%20-%20Lough%20Muckno%2C%20Castleblayney.jpg",
+      "verifiedAt": "2026-10-24T22:16:37.218296+00:00"
+    },
+    "https://www.sportireland.ie/sites/default/files/media/document/2026-02/Black%20Island%20Trail%20Signage%20-%20Lough%20Muckno%2C%20Castleblayney_0.jpg": {
+      "status": "available",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "resolvedUrl": "https://www.sportireland.ie/sites/default/files/media/document/2026-02/Black%20Island%20Trail%20Signage%20-%20Lough%20Muckno%2C%20Castleblayney_0.jpg",
+      "verifiedAt": "2026-10-24T22:16:56.698579+00:00"
+    },
+    "https://www.sportireland.ie/sites/default/files/media/document/2026-02/Black%20Island%20Trail%20Signage%20-%20Lough%20Muckno%2C%20Castleblayney_1.jpg": {
+      "status": "available",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "resolvedUrl": "https://www.sportireland.ie/sites/default/files/media/document/2026-02/Black%20Island%20Trail%20Signage%20-%20Lough%20Muckno%2C%20Castleblayney_1.jpg",
+      "verifiedAt": "2026-10-24T22:17:15.659342+00:00"
+    },
+    "https://www.sportireland.ie/sites/default/files/media/document/2026-02/Black%20Island%20Trail%20Signage%20-%20Lough%20Muckno%2C%20Castleblayney_2.jpg": {
+      "status": "available",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "resolvedUrl": "https://www.sportireland.ie/sites/default/files/media/document/2026-02/Black%20Island%20Trail%20Signage%20-%20Lough%20Muckno%2C%20Castleblayney_2.jpg",
+      "verifiedAt": "2026-10-24T22:17:35.025697+00:00"
+    },
+    "https://www.sportireland.ie/sites/default/files/media/document/2026-02/Black%20Island%20Trail%20Signage%20-%20Lough%20Muckno%2C%20Castleblayney_3.jpg": {
+      "status": "available",
+      "format": "jpg",
+      "contentType": "image/jpeg",
+      "resolvedUrl": "https://www.sportireland.ie/sites/default/files/media/document/2026-02/Black%20Island%20Trail%20Signage%20-%20Lough%20Muckno%2C%20Castleblayney_3.jpg",
+      "verifiedAt": "2026-10-24T22:17:55.623079+00:00"
+    }
+  }
+}
